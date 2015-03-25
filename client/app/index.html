@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Charlie Depman</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class='top'>
+  <img id='head'  class="responsive-img" src="assets/D7K_9145_small.jpg">
+  <img class='top-menu' id='about-btn' class="responsive-img" src="assets/aboutButton.png">
+  <img class='top-menu' id='my-work-btn' class="responsive-img" src="assets/myWorkButton.png">
+  <img class='top-menu' id='connect-btn' class="responsive-img" src="assets/connectButton.png">
+</div>
+
+  <ul class="menu">
+    <li><a ui-sref="home">home</a></li>
+  </ul>
+  <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div ui-view></div>
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="components/angular/angular.js"></script>
+  <script src="components/angular-ui-router/release/angular-ui-router.js"></script>  
+  <script src="components/jquery/dist/jquery.min.js"></script>  
+  <script src="components/lodash/lodash.min.js"></script>
+  <script src="app.js"></script>
+  <script src="home/home.js"></script>
+  <script type="text/javascript">
+  $(function(){
+    $('.top').css({'height': $('#head').height()});
+    $('.top-menu').css({'height': $('#head').height()*.15});
+    $('.top-menu').css({'width': $('#head').width()*.13});
+    $(window).resize(function(){
+      $('.top').css({'height': $('#head').height()});
+      $('.top-menu').css({'height': $('#head').height()*.15});
+      $('.top-menu').css({'width': $('#head').width()*.13});
+    })
+  });
+  </script>
+</body>
+</html>

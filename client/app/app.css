@@ -1,0 +1,61 @@
+/* app css stylesheet */
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+
+.top {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 20%;
+}
+
+#head {
+  width: 100%;
+  position:fixed;
+  top:0;
+}
+
+#about-btn {
+  position: absolute;
+  left: 16.5%;
+  top: 12%;
+}
+
+#my-work-btn {
+  position: absolute;
+  left: 16.5%;
+  top: 27%;
+}
+
+#connect-btn {
+  position: absolute;
+  left: 16.5%;
+  top: 42%;
+}
