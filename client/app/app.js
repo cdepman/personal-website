@@ -14,3 +14,4 @@ config(function($stateProvider, $urlRouterProvider) {
       controller: 'HomeCtrl'
     })
 });
+

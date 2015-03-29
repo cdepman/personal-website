@@ -1,7 +1,7 @@
 /* app css stylesheet */
 
 body {
-  background-color: black;
+  background-color: #cc6666;
 }
 
 .menu {
@@ -33,35 +33,136 @@ body {
   padding: 0;
 }
 
-.top {
+#name {
+  position: relative;
+  top: 30%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 800;
+  color: #ccccff;
+  margin: auto 0 -7px;
+  font-size: 2em;
+  white-space: nowrap;
+}
+
+#my-logo {
   position: fixed;
-  top: 0;
-  width: 100%;
-  height: 20%;
+  height:20%;
+  top: 22%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
-#head {
-  width: 100%;
-  position:fixed;
-  top:0;
-}
-
-#about-btn {
-  position: absolute;
-  left: 16.5%;
-  top: 12%;
-}
-
-#my-work-btn {
-  position: absolute;
-  left: 16.5%;
-  top: 27%;
-}
-
-#connect-btn {
-  position: absolute;
-  left: 16.5%;
+.title {
+  min-width: 300px;
+  position: fixed;
   top: 42%;
+  left: 50%;
+  margin-bottom: 20px;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.my-menu {
+  white-space: nowrap;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 1.3em;
+  height: 350px;
+  width: 400px;
+  position: fixed;
+  top: 61%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#my-work {
+  position: fixed;
+  top: 80px;
+  left: 35%;
+  background-color: #cc6666;
+  border: 8px solid #000;
+  height:110px;
+  width:110px;
+  max-width: 110px;
+  min-width: 110px;
+  border-radius:55px;
+  -webkit-border-radius:55px;
+  -moz-border-radius:55px;
+  line-height:95px;
+}
+#about-me {
+  position: fixed;
+  top: 168px;
+  left: 52%;
+  background-color: #cc6666;
+  border: 8px solid #000;
+  height:88px;
+  width:88px;
+  -webkit-border-radius:44px;
+  border-radius:44px;
+  -moz-border-radius:44px;
+  line-height:70px;
+}
+#connect {
+  position: fixed;
+  top: 180px;
+  left: 26%;
+  background-color: #cc6666;
+  border: 8px solid #000;
+  height:110px;
+  width:110px;
+  border-radius:55px;
+  -webkit-border-radius:55px;
+  -moz-border-radius:55px;
+  line-height:95px;
+}
+#blog {
+  position: fixed;
+  top: 249px;
+  left: 48.3%;
+  background-color: #cc6666;
+  border: 8px solid #000;
+  height:74px;
+  width:74px;
+  border-radius:37px;
+  -webkit-border-radius:37px;
+  -moz-border-radius:37px;
+  line-height:60px;
+}
+
+#cv {
+  position: fixed;
+  top: 285px;
+  left: 36.3%;
+  background-color: #cc6666;
+  border: 8px solid #000;
+  height:56px;
+  width:56px;
+  border-radius:28px;
+  -webkit-border-radius:28px;
+  -moz-border-radius:28px;
+  line-height:44px;
+}
+
+#description {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  color: #ccccff;
+  margin: auto 0;
+  font-size: 1.3em;
 }
 
 .top-menu {
@@ -85,4 +186,15 @@ body {
 .hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+@media screen and (max-height:700px) {
+    #name{font-size: 100%;}
+    #description{font-size: 100%;}}
+    .my-menu{top: 75%;}
+}
+
+@media screen and (min-height:700px) {
+    #description{font-size: 100%;}}
+    .my-menu{top: 61%;}
 }
