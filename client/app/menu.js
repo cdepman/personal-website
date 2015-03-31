@@ -51,6 +51,7 @@ var textLabels = text
     console.log(d.name);
     return d.name;
   })
+  .attr("class", function(d){return d.class})
   .attr("text-anchor", "middle")
   .attr("font-family", "'Raleway', sans-serif")
   .attr("font-weight", "400")
