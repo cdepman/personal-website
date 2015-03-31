@@ -4,7 +4,7 @@ body {
   background-color: #cc6666;
 }
 
-.menu {
+/*.menu {
   list-style: none;
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
@@ -31,6 +31,11 @@ body {
 .menu > li:nth-child(1):before {
   content: "";
   padding: 0;
+}*/
+
+circle.menu {
+  stroke: #000;
+  stroke-width: 8;
 }
 
 #name {
@@ -90,7 +95,7 @@ body {
 
 #my-work {
   position: fixed;
-  top: 80px;
+  top: 79.7px;
   left: 35%;
   background-color: #cc6666;
   border: 8px solid #000;
