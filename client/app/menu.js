@@ -60,14 +60,12 @@ var textLabels = text
 
 function tick(e) {
   circle
-    .each(gravity(.1 * e.alpha))
+    .each(gravity(.2 * e.alpha))
     .each(collide(.5))
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; });
   
   text
-    .each(gravity(.2 * e.alpha))
-    .each(collide(.5))
     .attr("x", function(d) { return d.x; })
     .attr("y", function(d) { return d.y + textOffset; });
 }
