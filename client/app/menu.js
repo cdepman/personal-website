@@ -26,7 +26,9 @@ var force = d3.layout.force()
 
 var svg = d3.select("body").append("svg")
   .attr("width", width)
-  .attr("height", height);
+  .attr("height", height)
+  .style("position", 'fixed')
+  .style("top", 0);
 
 var circle = svg.selectAll("circle")
   .data(nodes)
@@ -57,7 +59,7 @@ var textLabels = text
 
 function tick(e) {
   circle
-    .each(gravity(.2 * e.alpha))
+    .each(gravity(.1 * e.alpha))
     .each(collide(.5))
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; });
@@ -108,7 +110,6 @@ function collide(alpha) {
 window.onresize = resize;
 
 function resize(e){
-  console.log('Resize?!');
   // get width/height with container selector (body also works)
   // or use other method of calculating desired values
   var width = window.innerWidth;
@@ -121,4 +122,10 @@ function resize(e){
   })
   force.size([width, height]).resume();
 }
+
+$('.fa-envelope').hide();
+
+$('.connect').on('click', function(){
+  $('.fa-envelope').toggle();
+});
 
