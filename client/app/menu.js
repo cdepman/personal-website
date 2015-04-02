@@ -2,7 +2,7 @@ var width = window.innerWidth,
   height = window.innerHeight,
   padding = 3, // separation between nodes
   menuColor = "#cc6666", // fill color
-  menuOffset = 100, // offset from middle
+  menuOffset = 110, // offset from middle
   textOffset = 6, // offset for text inside circle elements
   maxRadius = 50, // radii
   myWork =   { radius: 50, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "My Work", class: "menu my-work" },
@@ -109,8 +109,7 @@ function collide(alpha) {
 window.onresize = resize;
 
 function resize(e){
-  // get width/height with container selector (body also works)
-  // or use other method of calculating desired values
+  // get width/height of resized window, update SVG, data and force accordingly
   var width = window.innerWidth;
   var height = window.innerHeight;
   svg.attr('width', width);
@@ -122,9 +121,34 @@ function resize(e){
   force.size([width, height]).resume();
 }
 
-$('.fa-envelope').hide();
+
+// enter connect icons set up listener
+var connectorIcons = [
+  '<i id="email" class="connect-icon fa fa-envelope-square fa-5x"></i>',
+  '<i id="linked-in" class="connect-icon fa fa-linkedin-square fa-5x"></i>',
+  '<i id="facebook" class="connect-icon fa fa-facebook-official fa-5x"></i>',
+  '<i id="github" class="connect-icon fa fa-github-square fa-5x"></i>'
+];
+
+connectorIcons.forEach(function(icon){
+  $('body').append(icon);
+})
+$('.connect-icon').toggle();
+
+var connect = function(){
+  $('.connect-icon').toggle("slow");
+};
 
 $('.connect').on('click', function(){
-  $('.fa-envelope').toggle();
+  connect();
 });
 
+// enter about description and set up listener
+var about = "<p id='about'>My passion for using tech for good stems from my experiences living in 15 of the world’s busiest cities. My background includes environmental advocacy, fundraising, and teaching. I also enjoy creative writing (mostly sci-fi) and once considered it as a vocation. But I had a revelation: why not learn how to turn all those exciting ideas into reality instead of just writing about them?<br><br>I talked to friends and mentors and rediscovered coding.<br><br>...I’ve been in love ever since.</p>"
+
+$('body').append(about);
+$('#about').toggle();
+
+$('.about-me').on('click', function(){
+  $('#about').toggle("slow");  
+});

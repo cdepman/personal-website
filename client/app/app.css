@@ -1,58 +1,16 @@
-/* app css stylesheet */
-
 body {
   background-color: #cc6666;
 }
-
-/*.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
-}
-
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}*/
 
 circle.menu {
   stroke: #000;
   stroke-width: 8;
 }
 
-#name {
-  position: relative;
-  top: 30%;
-  font-family: 'Raleway', sans-serif;
-  font-weight: 800;
-  color: #ccccff;
-  margin: auto 0 -7px;
-  font-size: 2em;
-  white-space: nowrap;
-}
-
 #my-logo {
   position: fixed;
-  height:20%;
-  top: 22%;
+  height:14%;
+  top: 27%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
@@ -75,7 +33,26 @@ circle.menu {
   text-align: center;
 }
 
-.my-menu {
+#name {
+  position: relative;
+  top: 30%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 800;
+  color: #ccccff;
+  margin: auto 0 0;
+  font-size: 2em;
+  white-space: nowrap;
+}
+
+#description {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  color: #ccccff;
+  margin: auto 0;
+  font-size: 1.3em;
+}
+
+/*.my-menu {
   white-space: nowrap;
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
@@ -91,9 +68,46 @@ circle.menu {
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   text-align: center;
+}*/
+
+.connect-icon {
+  position: fixed;
 }
 
-#my-work {
+#email {
+  top: 30%;
+  left: 25%;
+  color: #ccccff;
+}
+
+#linked-in {
+  top: 30%;
+  left: 70%;
+  color: #ccccff;
+}
+
+#facebook {
+  top: 55%;
+  left: 25%;
+  color: #ccccff;
+}
+
+#github {
+  top: 55%;
+  left: 70%;
+  color: #ccccff;
+}
+
+#about {
+  width: 20%;
+  left: 9%;
+  top: 24%;
+  position: fixed;
+  font-family: Raleway;
+  font-size: 1.1em;
+  color: #ccccff;
+}
+/*#my-work {
   position: fixed;
   top: 79.7px;
   left: 35%;
@@ -160,19 +174,7 @@ circle.menu {
   -webkit-border-radius:28px;
   -moz-border-radius:28px;
   line-height:44px;
-}
-
-#description {
-  font-family: 'Raleway', sans-serif;
-  font-weight: 400;
-  color: #ccccff;
-  margin: auto 0;
-  font-size: 1.3em;
-}
-
-.top-menu {
-  visibility: hidden;
-}
+}*/
 
 .hvr-grow {
   display: inline-block;
