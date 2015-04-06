@@ -132,20 +132,14 @@ function resize(e){
 
 
 // enter connect icons set up listener
-var connectorIcons = [
-  '<i id="email" class="hvr-grow connect-icon fa fa-envelope-square fa-5x"></i>',
-  '<i id="linked-in" class="hvr-grow connect-icon fa fa-linkedin-square fa-5x"></i>',
-  '<i id="facebook" class="hvr-grow connect-icon fa fa-facebook-official fa-5x"></i>',
-  '<i id="github" class="hvr-grow connect-icon fa fa-github-square fa-5x"></i>'
-];
+var connections = '<div class="connectors"> <a href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-grow connect-icon fa fa-envelope-square fa-5x"></i></a> <a href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-grow connect-icon fa fa-linkedin-square fa-5x"></i></a> <a href="http://facebook.com/cdepman"><i id="facebook" class="hvr-grow connect-icon fa fa-facebook-square fa-5x"></i></a> <a href="http://github.com/cdepman"><i id="github" class="hvr-grow connect-icon fa fa-github-square fa-5x"></i></a> </div>'
 
-connectorIcons.forEach(function(icon){
-  $('body').append(icon);
-})
-$('.connect-icon').toggle();
+$('body').append(connections);
+$('.connectors').toggle();
 
 var connect = function(){
-  $('.connect-icon').fadeToggle("slow");
+  $('.connectors').slideToggle("slow");
+  $('#lean_overlay').fadeIn();
 };
 
 $('.connect').on('click', function(){
@@ -155,18 +149,24 @@ $('.connect').on('click', function(){
 // enter about description and set up listener
 var about = "<p id='about'>My passion for using tech for good stems from my experiences living in 15 of the world’s busiest cities. My background includes environmental advocacy, fundraising, and teaching. I also enjoy creative writing (mostly sci-fi) and once considered it as a vocation. But I had a revelation: why not learn how to turn all those exciting ideas into reality instead of just writing about them?<br><br>I talked to friends and mentors and rediscovered coding.<br><br>...I’ve been in love ever since.</p>"
 $('.about-me').on('click', function(){
+  $('#head-shot').fadeIn("fast");
   $('#lean_overlay').fadeIn();
-  $('#modal1').fadeIn();
+  $('#modal1').slideToggle();
 })
-$('body').prepend("<div id='lean_overlay'></div>");
+
 $('#lean_overlay').on('click',function(){
-  $('#lean_overlay').fadeOut();
+  $('#lean_overlay').fadeOut("slow");
+  $('#modal1').slideUp();
+  $('#head-shot').fadeOut();
+  $('.connectors').slideUp("slow");
   $('#modal1').fadeOut();
+  $('#modal2').fadeOut();
 })
 
 $('.modal-close').on('click',function(){
   $('#lean_overlay').fadeOut();
   $('#modal1').fadeOut();
+  $('#head-shot').slideUp();
 })
 
 var cvElement = "<object id='cv' data='./assets/CharlieDepmanResumeV2.pdf' type='application/pdf' width='100%' height='100%'> <p>It appears you don't have a PDF plugin for this browser. No biggie... you can <a href='myfile.pdf'>click here to download the PDF file.</a></p></object>"

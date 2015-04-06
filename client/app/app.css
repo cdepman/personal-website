@@ -9,6 +9,7 @@ circle.menu {
 
 #my-logo {
   position: fixed;
+  z-index: 10024;
   height:14%;
   top: 27%;
   left: 50%;
@@ -19,7 +20,24 @@ circle.menu {
   transform: translate(-50%, -50%);
 }
 
+#head-shot {
+  display: none;
+  z-index: 10002;
+  position: fixed;
+  height:35%;
+  top: 30%;
+  left: 50%;
+  -webkit-transform: translate(0);
+  webkit-border-radius:25px;
+  -moz-border-radius:25px;
+  -ms-border-radius:25px;
+  -o-border-radius:25px;
+  border-radius:25px;
+}
+
+
 .title {
+  z-index: 10025;
   min-width: 300px;
   position: fixed;
   top: 42%;
@@ -52,31 +70,45 @@ circle.menu {
 }
 
 .connect-icon {
+  position: relative;
+}
+
+.connectors{
+  background-color: black;
+  border-radius: 25px;
   position: fixed;
+  z-index: 10003;
+  top: 45%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 #email {
-  top: 30%;
-  left: 25%;
+  display: table;
   color: #ccccff;
+  font-size: 1400%;
 }
 
 #linked-in {
-  top: 30%;
-  left: 70%;
+  display: table;
   color: #ccccff;
+  font-size: 1400%;
 }
 
 #facebook {
-  top: 55%;
-  left: 25%;
+  display: table;
   color: #ccccff;
+  font-size: 1400%;
 }
 
 #github {
-  top: 55%;
-  left: 70%;
+  display: table;
   color: #ccccff;
+  font-size: 1400%;
 }
 
 #about {
@@ -103,26 +135,28 @@ circle.menu {
     height:100%;
     width:100%;
     background: #000;
-    opacity: .3;
+    opacity: .55;
     display: none;
 }
 
 #modal1 {
   z-index: 10001;
-  top: 20%;
-  width: 50%;
+  top: 50%;
+  width: 65%;
+  border-radius: 25px;
 }
 
 #modal2{
   z-index: 10001;
-  top: 20%;
-  height: 90%;
+  top: 10%;
+  height: 100%;
   width: 90%;
+  max-height: 100%;
 }
 
 #cv-frame {
   width: 100%;
-  height: 100%;
+  height: 140%;
   position: relative;
 }
 
@@ -141,9 +175,10 @@ circle.menu {
   transition-property: transform;
 }
 .hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
-  -webkit-transform: scale(1.2);
-  transform: scale(1.2);
+  -webkit-transform: scale(.8);
+  transform: scale(.8);
 }
+
 
 @media screen and (max-height:750px) {
     #name{font-size: 1.2em; top: ;}
@@ -157,25 +192,14 @@ circle.menu {
     .my-menu{top: 61%;}
 }
 */
-@media screen and (max-width:900px) {
-  #email {
-    left: 30%;
-    top: 78%;
-  }
 
-  #linked-in {
-    left: 40%;
-    top: 78%;
-  }
-
-  #facebook {
-    left: 50%;
-    top: 78%;
-  }
-
-  #github {
-    left:60%;
-    top: 78%;
+.svg {
+  z-index: -2;
+}
+@media screen and (max-width:800px) {
+  .modal-content {
+    width: 80%;
+    height: 60%;
   }
 }
 

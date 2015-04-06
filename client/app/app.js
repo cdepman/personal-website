@@ -1,33 +1,32 @@
-'use strict';
-
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
-  'ui.router',
-  'myApp.connect'
-])
-.config(function($stateProvider, $urlRouterProvider) {
+var app = angular.module('app', [
+  'app.SoftwareCtrl',
+  'ui.router'
+]);
+
+app.config(function($stateProvider, $urlRouterProvider) {
   
-  $urlRouterProvider.otherwise('/');
-  
+  $urlRouterProvider.otherwise('/software');
+
   $stateProvider
-    .state('about', {
-      url: '/about',
-      templateUrl: 'about/about.html',
-      controller: 'AboutCtrl'
+    .state('software', {
+      url: '/software',
+      templateUrl: 'myWork/software/software.html',
+      controller: 'SoftwareCtrl'
     })
-    .state('connect', {
-      url: '/connect',
-      templateUrl: 'connect/connect.html',
-      controller: 'ConnectCtrl'
+    .state('photography', {
+      url: '/photography',
+      templateUrl: 'myWork/photography/photography.html',
+      controller: 'PhotographyCtrl'
     })
-    .state('myWork', {
-      url: '/myWork',
-      templateUrl: 'myWork/myWork.html',
-      controller: 'MyWorkCtrl'
+    .state('design', {
+      url: '/design',
+      templateUrl: 'myWork/design/design.html',
+      controller: 'DesignCtrl'
     })
-    .state('cv', {
-      url: '/cv',
-      templateUrl: 'cv/cv.html',
-      controller: 'ConnectCtrl'
+    .state('writing', {
+      url: '/writing',
+      templateUrl: 'myWork/writing/writing.html',
+      controller: 'WritingCtrl'
     })
 })

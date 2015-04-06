@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,21 +10,22 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href='http://fonts.googleapis.com/css?family=Raleway:800,400' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="components/materialize/css/materialize.min.css">
+  <link rel="stylesheet" href="components/font-awesome-4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
+  <div id='lean_overlay'></div>
   <img id='my-logo' class='responsive-img' src="assets/cd_logo4_flat.png">
   <div class='title'>
       <p id='name'>Charlie Depman</p>
       <p id='description'>Software Engineer</p>
   </div>
-
+  <img id='head-shot' src="assets/headshot.png">
   <div id="modal1" class="modal">
     <div class="modal-content">
       <h4>About</h4>
-      <p>My passion for using tech for good stems from my experiences living in 15 of the world’s busiest cities. My background includes environmental advocacy, fundraising, and teaching. I also enjoy creative writing (mostly sci-fi) and once considered it as a vocation. But I had a revelation: why not learn how to turn all those exciting ideas into reality instead of just writing about them?<br><br>I talked to friends and mentors and rediscovered coding.<br><br>...I’ve been in love ever since.</p>
+      <p>My passion for using tech for good stems from my experiences living in 15 of the world’s busiest cities. My background includes Chinese linguistics, environmental advocacy, fundraising, and teaching. I also enjoy creative writing (mostly sci-fi) and once considered it as a vocation. But I had a revelation: why not learn how to turn all those exciting ideas into reality instead of just writing about them?<br><br>I talked to friends and mentors and discovered coding.<br><br>...I’ve been in love ever since.</p>
     </div>
     <div class="modal-footer">
       <a class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
@@ -32,26 +33,12 @@
   </div>
 
   <div id="modal2" class="modal">
-    <div class="modal-content">
-      <h4>CV</h4>
-      <iframe src="assets/CharlieDepmanResumeV2.pdf"></iframe>
-    </div>
-    <div class="modal-footer">
-      <a class="modal-action modal-close waves-effect waves-green btn-flat ">Close</a>
-    </div>
+      <iframe id='cv-frame' src="assets/CharlieDepmanResumeV2.pdf"></iframe>
   </div>
-
-  <div ui-view></div>
-
-  <script src="components/angular/angular.js"></script>
-  <script src="components/angular-ui-router/release/angular-ui-router.js"></script>  
   <script src="components/jquery/dist/jquery.min.js"></script>  
   <script src="components/jquery-leanmodal/jquery.leanModal.js"></script>  
   <script src="components/lodash/lodash.min.js"></script>
   <script src="components/d3/d3.min.js"></script>
-  <script src="app.js"></script>
-  <script src="home/home.js"></script>
   <script src="menu.js"></script>
-  <script src="connect/connect.js"></script>
 </body>
 </html>
