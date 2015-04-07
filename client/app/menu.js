@@ -1,17 +1,18 @@
 var width = window.innerWidth,
   height = window.innerHeight,
   padding = 3, // separation between nodes
-  menuColor = "#cc6666", // fill color
+  menuColor = "transparent", // fill color
   menuOffset = height < 750 ? 50 : 110, // offset from middle
   radiusOffset = height < 750 ? .7 : 1,
   textSize = height < 750 ? '1em' : '1.3em',
   textOffset = 6, // offset for text inside circle elements
   maxRadius = 50 * radiusOffset, // radii
-  myWork =   { radius: 50 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "My Work", class: "modal-trigger menu my-work", textSize: textSize },
-  connect = { radius: 49 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "Connect", class: "modal-trigger menu connect", textSize: textSize },
-  aboutMe =   { radius: 37 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "About", class: "modal-trigger menu about-me", textSize: textSize },
-  blog =   { radius: 32 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "Blog", class: "modal-trigger menu blog", textSize: textSize },
-  cv =   { radius: 24 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "CV", class: "modal-trigger menu cv", textSize: textSize }
+  cursor = 'pointer',
+  myWork =   { radius: 50 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "My Work", class: "modal-trigger menu my-work", textSize: textSize, cursor: cursor },
+  connect = { radius: 49 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "Connect", class: "modal-trigger menu connect", textSize: textSize, cursor: cursor },
+  aboutMe =   { radius: 37 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "About", class: "modal-trigger menu about-me", textSize: textSize, cursor: cursor },
+  blog =   { radius: 32 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "Blog", class: "modal-trigger menu blog", textSize: textSize, cursor: cursor },
+  cv =   { radius: 24 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "CV", class: "modal-trigger menu cv", textSize: textSize, cursor: cursor }
 
 var n = 5, // total number of nodes
   m = 1; // number of distinct clusters
@@ -39,6 +40,7 @@ var circle = svg.selectAll("circle")
   .attr("class", function(d) {return d.class})
   .attr("r", function(d) { return d.radius; })
   .style("fill", function(d) { return d.color; })
+  .style("cursor", function(d) { return d.cursor; })
   .call(force.drag);
 
 var text = svg.selectAll("text")
@@ -59,7 +61,9 @@ var textLabels = text
   .attr("font-family", "'Raleway', sans-serif")
   .attr("font-weight", "400")
   .attr("font-size", function(d){return d.textSize})
-  .attr("fill", "black");
+  .attr("fill", "black")
+  .style("cursor", function(d) { return d.cursor; });
+
 
 function tick(e) {
   circle
@@ -132,7 +136,7 @@ function resize(e){
 
 
 // enter connect icons set up listener
-var connections = '<div class="connectors"> <a href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-grow connect-icon fa fa-envelope-square fa-5x"></i></a> <a href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-grow connect-icon fa fa-linkedin-square fa-5x"></i></a> <a href="http://facebook.com/cdepman"><i id="facebook" class="hvr-grow connect-icon fa fa-facebook-square fa-5x"></i></a> <a href="http://github.com/cdepman"><i id="github" class="hvr-grow connect-icon fa fa-github-square fa-5x"></i></a> </div>'
+var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-grow connect-icon fa fa-envelope-square fa-5x"></i></a> <a target="_blank" href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-grow connect-icon fa fa-linkedin-square fa-5x"></i></a> <a target="_blank" href="http://facebook.com/cdepman"><i id="facebook" class="hvr-grow connect-icon fa fa-facebook-square fa-5x"></i></a> <a target="_blank" href="http://github.com/cdepman"><i id="github" class="hvr-grow connect-icon fa fa-github-square fa-5x"></i></a> </div>'
 
 $('body').append(connections);
 $('.connectors').toggle();
@@ -140,6 +144,7 @@ $('.connectors').toggle();
 var connect = function(){
   $('.connectors').slideToggle("slow");
   $('#lean_overlay').fadeIn();
+  $('.connectors-background').fadeIn("slow");
 };
 
 $('.connect').on('click', function(){
@@ -151,27 +156,33 @@ var about = "<p id='about'>My passion for using tech for good stems from my expe
 $('.about-me').on('click', function(){
   $('#head-shot').fadeIn("fast");
   $('#lean_overlay').fadeIn();
-  $('#modal1').slideToggle();
+  $('#modal1').fadeIn();
 })
 
 $('#lean_overlay').on('click',function(){
   $('#lean_overlay').fadeOut("slow");
-  $('#modal1').slideUp();
   $('#head-shot').fadeOut();
   $('.connectors').slideUp("slow");
   $('#modal1').fadeOut();
   $('#modal2').fadeOut();
+  $('.connectors-background').fadeOut("slow");
 })
 
 $('.modal-close').on('click',function(){
   $('#lean_overlay').fadeOut();
   $('#modal1').fadeOut();
-  $('#head-shot').slideUp();
+  $('#head-shot').fadeOut();
 })
-
-var cvElement = "<object id='cv' data='./assets/CharlieDepmanResumeV2.pdf' type='application/pdf' width='100%' height='100%'> <p>It appears you don't have a PDF plugin for this browser. No biggie... you can <a href='myfile.pdf'>click here to download the PDF file.</a></p></object>"
 
 $('.cv').on('click', function(){
   $('#lean_overlay').fadeIn();
   $('#modal2').fadeIn();
+});
+
+$('.my-work').on('click', function(){
+  window.location.href = 'http://localhost:8000/myWork.html';
+});
+
+$('.blog').on('click', function(){
+  window.location.href = 'http://cdepman.com';
 });

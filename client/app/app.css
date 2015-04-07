@@ -1,16 +1,16 @@
 body {
-  background-color: #cc6666;
+  background-color: white;
 }
 
 circle.menu {
   stroke: #000;
   stroke-width: 8;
+  z-index: 10023
 }
 
 #my-logo {
   position: fixed;
-  z-index: 10024;
-  height:14%;
+  height: 14%;
   top: 27%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -24,10 +24,14 @@ circle.menu {
   display: none;
   z-index: 10002;
   position: fixed;
-  height:35%;
-  top: 30%;
+  height: 25%;
+  top: 22%;
   left: 50%;
-  -webkit-transform: translate(0);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   webkit-border-radius:25px;
   -moz-border-radius:25px;
   -ms-border-radius:25px;
@@ -37,7 +41,6 @@ circle.menu {
 
 
 .title {
-  z-index: 10025;
   min-width: 300px;
   position: fixed;
   top: 42%;
@@ -74,11 +77,27 @@ circle.menu {
 }
 
 .connectors{
-  background-color: black;
-  border-radius: 25px;
   position: fixed;
-  z-index: 10003;
-  top: 45%;
+  z-index: 10056;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.connectors-background{
+  z-index: 9999;
+  display: none;
+  position: fixed;
+  background-color: white;
+  width: 70%;
+  height: 80%;
+  text-align: -webkit-center;
+  border-radius: 25px;
+  top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
@@ -88,25 +107,25 @@ circle.menu {
 }
 
 #email {
-  display: table;
+  display: block;
   color: #ccccff;
   font-size: 1400%;
 }
 
 #linked-in {
-  display: table;
+  display: block;
   color: #ccccff;
   font-size: 1400%;
 }
 
 #facebook {
-  display: table;
+  display: block;
   color: #ccccff;
   font-size: 1400%;
 }
 
 #github {
-  display: table;
+  display: block;
   color: #ccccff;
   font-size: 1400%;
 }
@@ -135,7 +154,7 @@ circle.menu {
     height:100%;
     width:100%;
     background: #000;
-    opacity: .55;
+    opacity: .70;
     display: none;
 }
 
