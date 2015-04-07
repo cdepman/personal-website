@@ -136,53 +136,78 @@ function resize(e){
 
 
 // enter connect icons set up listener
-var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-grow connect-icon fa fa-envelope-square fa-5x"></i></a> <a target="_blank" href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-grow connect-icon fa fa-linkedin-square fa-5x"></i></a> <a target="_blank" href="http://facebook.com/cdepman"><i id="facebook" class="hvr-grow connect-icon fa fa-facebook-square fa-5x"></i></a> <a target="_blank" href="http://github.com/cdepman"><i id="github" class="hvr-grow connect-icon fa fa-github-square fa-5x"></i></a> </div>'
+$(function(){
 
-$('body').append(connections);
-$('.connectors').toggle();
+  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-grow connect-icon fa fa-envelope-square fa-5x"></i></a> <a target="_blank" href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-grow connect-icon fa fa-linkedin-square fa-5x"></i></a> <a target="_blank" href="http://facebook.com/cdepman"><i id="facebook" class="hvr-grow connect-icon fa fa-facebook-square fa-5x"></i></a> <a target="_blank" href="http://github.com/cdepman"><i id="github" class="hvr-grow connect-icon fa fa-github-square fa-5x"></i></a> </div>'
 
-var connect = function(){
-  $('.connectors').slideToggle("slow");
-  $('#lean_overlay').fadeIn();
-  $('.connectors-background').fadeIn("slow");
-};
+  $('body').append(connections);
+  $('.connectors').toggle();
 
-$('.connect').on('click', function(){
-  connect();
-});
+  var connect = function(){
+    $('.connectors').slideToggle("slow");
+    $('#lean_overlay').fadeIn("fast");
+    $('.connectors-background').fadeIn("slow");
+    $('.connectors-outline').fadeIn("slow");
+    $('.close-connectors ').fadeIn("fast");
+  };
 
-// enter about description and set up listener
-var about = "<p id='about'>My passion for using tech for good stems from my experiences living in 15 of the world’s busiest cities. My background includes environmental advocacy, fundraising, and teaching. I also enjoy creative writing (mostly sci-fi) and once considered it as a vocation. But I had a revelation: why not learn how to turn all those exciting ideas into reality instead of just writing about them?<br><br>I talked to friends and mentors and rediscovered coding.<br><br>...I’ve been in love ever since.</p>"
-$('.about-me').on('click', function(){
-  $('#head-shot').fadeIn("fast");
-  $('#lean_overlay').fadeIn();
-  $('#modal1').fadeIn();
-})
+  $('.connect').on('click', function(){
+    connect();
+  });
 
-$('#lean_overlay').on('click',function(){
-  $('#lean_overlay').fadeOut("slow");
-  $('#head-shot').fadeOut();
-  $('.connectors').slideUp("slow");
-  $('#modal1').fadeOut();
-  $('#modal2').fadeOut();
-  $('.connectors-background').fadeOut("slow");
-})
+  // enter about description and set up listener
+  var about = "<p id='about'>My passion for using tech for good stems from my experiences living in 15 of the world’s busiest cities. My background includes environmental advocacy, fundraising, and teaching. I also enjoy creative writing (mostly sci-fi) and once considered it as a vocation. But I had a revelation: why not learn how to turn all those exciting ideas into reality instead of just writing about them?<br><br>I talked to friends and mentors and rediscovered coding.<br><br>...I’ve been in love ever since.</p>"
+  $('.about-me').on('click', function(){
+    $('#head-shot').fadeIn("fast");
+    $('#lean_overlay').fadeIn();
+    $('#modal1').fadeIn();
+    $('#head-shot-outline').fadeIn("fast");
+    $('.title').css('z-index', 10080);
+  })
 
-$('.modal-close').on('click',function(){
-  $('#lean_overlay').fadeOut();
-  $('#modal1').fadeOut();
-  $('#head-shot').fadeOut();
-})
+  $('#lean_overlay').on('click',function(){
+    $('#lean_overlay').fadeOut("slow");
+    $('#head-shot').fadeOut();
+    $('.connectors').slideUp("slow");
+    $('#modal1').fadeOut();
+    $('#modal2').fadeOut();
+    $('.connectors-background').fadeOut("slow");
+    $('.connectors-outline').fadeOut("slow");
+    $('.close-connectors ').fadeOut("fast");
+    $('.title').css('z-index', 1);
+  })
 
-$('.cv').on('click', function(){
-  $('#lean_overlay').fadeIn();
-  $('#modal2').fadeIn();
-});
+  $('.modal-close').on('click',function(){
+    $('#lean_overlay').fadeOut();
+    $('#modal1').fadeOut();
+    $('#head-shot').fadeOut();
+    $('.title').css('z-index', 1);
+  })
 
-$('.my-work').on('click', function(){
-  window.location.href = 'http://localhost:8000/myWork.html';
-});
+  $('.cv').on('click', function(){
+    $('#lean_overlay').fadeIn();
+    $('#modal2').fadeIn();
+  });
 
-$('.blog').on('click', function(){
-  window.location.href = 'http://cdepman.com';
+  $('.close-cv').on('click', function(){
+    $('#lean_overlay').fadeOut();
+    $('#modal2').fadeOut();
+  });
+
+  $('.my-work').on('click', function(){
+    window.location.href = 'http://localhost:8000/myWork.html';
+  });
+
+  $('.blog').on('click', function(){
+    window.open('http://cdepman.com', '_blank');
+  });
+
+  $('i.close-connectors').on('click', function(){
+    $('#lean_overlay').fadeOut("slow");
+    $('.close-connectors ').fadeOut("fast");
+    $('.connectors').slideUp("slow");
+    $('.connectors-background').fadeOut("slow");
+    $('.connectors-outline').fadeOut("slow");
+  });
+
 });

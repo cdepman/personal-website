@@ -27,6 +27,34 @@ circle.menu {
   height: 25%;
   top: 22%;
   left: 50%;
+  border: dotted;
+  border-color: white;
+  border-radius: 25px;
+  border-width: 4px;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  webkit-border-radius:25px;
+  -moz-border-radius:25px;
+  -ms-border-radius:25px;
+  -o-border-radius:25px;
+  border-radius:25px;
+}
+
+
+#head-shot-outline {
+  display: none;
+  z-index: 10002;
+  position: fixed;
+  height: 25%;
+  top: 22%;
+  left: 50%;
+  border: solid;
+  border-color: white;
+  border-radius: 25px;
+  border-width: 4px;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
@@ -106,6 +134,40 @@ circle.menu {
   transform: translate(-50%, -50%);
 }
 
+.connectors-outline{
+  z-index: 10034;
+  display: none;
+  position: fixed;
+  background-color: transparent;
+  width: 270px;
+  height: 900px;
+  text-align: -webkit-center;
+  border: solid;
+  border-color: white;
+  border-width: 6px;
+  border-radius: 25px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.close-connectors {
+  cursor: pointer;
+  position: absolute;
+  z-index: 10035;
+  width: 36px;
+  height: 39px;
+  right: -15px;
+  top: -25px;
+  color: white;
+  background-color: rgb(76, 76, 76);
+  border-radius: 100px;
+}
+
 #email {
   display: block;
   color: #ccccff;
@@ -133,7 +195,7 @@ circle.menu {
 #about {
   width: 20%;
   left: 9%;
-  top: 24%;
+  top: 20%;
   position: fixed;
   font-family: Raleway;
   font-size: 1.1em;
@@ -166,6 +228,7 @@ circle.menu {
 }
 
 #modal2{
+  text-align: -webkit-center;
   z-index: 10001;
   top: 10%;
   height: 100%;
@@ -177,6 +240,23 @@ circle.menu {
   width: 100%;
   height: 140%;
   position: relative;
+}
+
+.close-cv {
+  z-index: 10095;
+  position: fixed;
+  left: 50%;
+  top: 5%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.fa-times-circle-o {
+  z-index: 10095;
+  color: white;
 }
 
 .hvr-grow {
@@ -217,8 +297,128 @@ circle.menu {
 }
 @media screen and (max-width:800px) {
   .modal-content {
-    width: 80%;
+    width: 100%;
     height: 60%;
+  }
+}
+
+@media screen and (max-height: 1000px){
+
+  .connectors{
+    position: fixed;
+    z-index: 10056;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .connectors-outline{
+    z-index: 10034;
+    display: none;
+    position: fixed;
+    background-color: transparent;
+    width: 180px;
+    height: 630px;
+    text-align: -webkit-center;
+    border: solid;
+    border-color: white;
+    border-width: 6px;
+    border-radius: 25px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  #email {
+    display: block;
+    color: #ccccff;
+    font-size: 1000%;
+  }
+
+  #linked-in {
+    display: block;
+    color: #ccccff;
+    font-size: 1000%;
+  }
+
+  #facebook {
+    display: block;
+    color: #ccccff;
+    font-size: 1000%;
+  }
+
+  #github {
+    display: block;
+    color: #ccccff;
+    font-size: 1000%;
+  }
+}
+
+@media screen and (max-height: 700px){
+
+  .connectors{
+    position: fixed;
+    z-index: 10056;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .connectors-outline{
+    z-index: 10034;
+    display: none;
+    position: fixed;
+    background-color: transparent;
+    width: 140px;
+    height: 450px;
+    text-align: -webkit-center;
+    border: solid;
+    border-color: white;
+    border-width: 4px;
+    border-radius: 25px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  #email {
+    display: block;
+    color: #ccccff;
+    font-size: 700%;
+  }
+
+  #linked-in {
+    display: block;
+    color: #ccccff;
+    font-size: 700%;
+  }
+
+  #facebook {
+    display: block;
+    color: #ccccff;
+    font-size: 700%;
+  }
+
+  #github {
+    display: block;
+    color: #ccccff;
+    font-size: 700%;
   }
 }
 
