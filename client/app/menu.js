@@ -1,10 +1,11 @@
 var width = window.innerWidth,
   height = window.innerHeight,
   padding = 3, // separation between nodes
-  menuColor = "transparent", // fill color
+  menuColor = "transparent", //["#D9ECF4", "#BBE5F7", "#7BD0F2", "#74ACF2", "#0094F7"], // fill color
   menuOffset = height < 750 ? 50 : 110, // offset from middle
   radiusOffset = height < 750 ? .7 : 1,
   textSize = height < 750 ? '1em' : '1.3em',
+  textColor = "white",
   textOffset = 6, // offset for text inside circle elements
   maxRadius = 50 * radiusOffset, // radii
   cursor = 'pointer',
@@ -59,9 +60,9 @@ var textLabels = text
   .attr("class", function(d){return d.class})
   .attr("text-anchor", "middle")
   .attr("font-family", "'Raleway', sans-serif")
-  .attr("font-weight", "400")
+  .attr("font-weight", "200")
   .attr("font-size", function(d){return d.textSize})
-  .attr("fill", "black")
+  .attr("fill", textColor)
   .style("cursor", function(d) { return d.cursor; });
 
 
@@ -138,7 +139,7 @@ function resize(e){
 // enter connect icons set up listener
 $(function(){
 
-  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-grow connect-icon fa fa-envelope-square fa-5x"></i></a> <a target="_blank" href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-grow connect-icon fa fa-linkedin-square fa-5x"></i></a> <a target="_blank" href="http://facebook.com/cdepman"><i id="facebook" class="hvr-grow connect-icon fa fa-facebook-square fa-5x"></i></a> <a target="_blank" href="http://github.com/cdepman"><i id="github" class="hvr-grow connect-icon fa fa-github-square fa-5x"></i></a> </div>'
+  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i></a> <a target="_blank" href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i></a> <a target="_blank" href="http://facebook.com/cdepman"><i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i></a> <a target="_blank" href="http://github.com/cdepman"><i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i></a> </div>'
 
   $('body').append(connections);
   $('.connectors').toggle();
@@ -148,7 +149,7 @@ $(function(){
     $('#lean_overlay').fadeIn("fast");
     $('.connectors-background').fadeIn("slow");
     $('.connectors-outline').fadeIn("slow");
-    $('.close-connectors ').fadeIn("fast");
+    $('.close-connectors').fadeIn("fast");
   };
 
   $('.connect').on('click', function(){
@@ -173,8 +174,9 @@ $(function(){
     $('#modal2').fadeOut();
     $('.connectors-background').fadeOut("slow");
     $('.connectors-outline').fadeOut("slow");
-    $('.close-connectors ').fadeOut("fast");
+    $('.close-connectors').fadeOut("fast");
     $('.title').css('z-index', 1);
+    $('.cv-options').fadeOut();
   })
 
   $('.modal-close').on('click',function(){
@@ -187,11 +189,13 @@ $(function(){
   $('.cv').on('click', function(){
     $('#lean_overlay').fadeIn();
     $('#modal2').fadeIn();
+    $('.cv-options').fadeIn();
   });
 
   $('.close-cv').on('click', function(){
-    $('#lean_overlay').fadeOut();
+    $('#lean_overlay').fadeOut("slow");
     $('#modal2').fadeOut();
+    $('.cv-options').fadeOut();
   });
 
   $('.my-work').on('click', function(){

@@ -1,10 +1,10 @@
 body {
-  background-color: white;
+  background-color: #007BBA; /* #007BBA #cc6666; */
 }
 
 circle.menu {
-  stroke: #000;
-  stroke-width: 8;
+  stroke: #FFFFFF;
+  stroke-width: 1;
   z-index: 10023
 }
 
@@ -27,10 +27,10 @@ circle.menu {
   height: 25%;
   top: 22%;
   left: 50%;
-  border: dotted;
+  border: solid;
   border-color: white;
   border-radius: 25px;
-  border-width: 4px;
+  border-width: 2px;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
@@ -85,8 +85,8 @@ circle.menu {
 #name {
   position: relative;
   font-family: 'Raleway', sans-serif;
-  font-weight: 800;
-  color: #ccccff;
+  font-weight: 600;
+  color: white;
   margin: auto 0 0;
   font-size: 2em;
   white-space: nowrap;
@@ -95,7 +95,7 @@ circle.menu {
 #description {
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
-  color: #ccccff;
+  color: white;
   margin: auto 0;
   font-size: 1.3em;
 }
@@ -120,11 +120,15 @@ circle.menu {
   z-index: 9999;
   display: none;
   position: fixed;
-  background-color: white;
+  background-color: #007BBA;
   width: 70%;
   height: 80%;
   text-align: -webkit-center;
   border-radius: 25px;
+  webkit-border-radius:25px;
+  -moz-border-radius:25px;
+  -ms-border-radius:25px;
+  -o-border-radius:25px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -139,13 +143,17 @@ circle.menu {
   display: none;
   position: fixed;
   background-color: transparent;
-  width: 270px;
-  height: 900px;
+  width: 230px;
+  height: 860px;
   text-align: -webkit-center;
   border: solid;
   border-color: white;
-  border-width: 6px;
+  border-width: 2px;
   border-radius: 25px;
+  webkit-border-radius:25px;
+  -moz-border-radius:25px;
+  -ms-border-radius:25px;
+  -o-border-radius:25px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -166,29 +174,33 @@ circle.menu {
   color: white;
   background-color: rgb(76, 76, 76);
   border-radius: 100px;
+  webkit-border-radius:100px;
+  -moz-border-radius:100px;
+  -ms-border-radius:100px;
+  -o-border-radius:100px;
 }
 
 #email {
   display: block;
-  color: #ccccff;
+  color: #FFFFFF;
   font-size: 1400%;
 }
 
 #linked-in {
   display: block;
-  color: #ccccff;
+  color: #BBE5F7;
   font-size: 1400%;
 }
 
 #facebook {
   display: block;
-  color: #ccccff;
+  color: #5BC8F7;
   font-size: 1400%;
 }
 
 #github {
   display: block;
-  color: #ccccff;
+  color: #00AEF9;
   font-size: 1400%;
 }
 
@@ -197,7 +209,6 @@ circle.menu {
   left: 9%;
   top: 20%;
   position: fixed;
-  font-family: Raleway;
   font-size: 1.1em;
   color: #ccccff;
   text-align: justify;
@@ -209,15 +220,15 @@ circle.menu {
 }
 
 #lean_overlay {
-    position: fixed;
-    z-index: 10000;
-    top: 0px;
-    left: 0px;
-    height:100%;
-    width:100%;
-    background: #000;
-    opacity: .70;
-    display: none;
+  position: fixed;
+  z-index: 10000;
+  top: 0px;
+  left: 0px;
+  height:100%;
+  width:100%;
+  background: #000;
+  opacity: .50;
+  display: none;
 }
 
 #modal1 {
@@ -225,14 +236,24 @@ circle.menu {
   top: 50%;
   width: 65%;
   border-radius: 25px;
+  webkit-border-radius:25px;
+  -moz-border-radius:25px;
+  -ms-border-radius:25px;
+  -o-border-radius:25px;
+  font-family: 'Raleway', sans-serif;
 }
 
 #modal2{
   text-align: -webkit-center;
+  border-radius: 22px;
+  webkit-border-radius:22px;
+  -moz-border-radius:22px;
+  -ms-border-radius:22px;
+  -o-border-radius:22px;
   z-index: 10001;
   top: 10%;
-  height: 100%;
-  width: 90%;
+  height: 80%;
+  width: 70%;
   max-height: 100%;
 }
 
@@ -242,7 +263,8 @@ circle.menu {
   position: relative;
 }
 
-.close-cv {
+.cv-options {
+  display: none;
   z-index: 10095;
   position: fixed;
   left: 50%;
@@ -257,6 +279,32 @@ circle.menu {
 .fa-times-circle-o {
   z-index: 10095;
   color: white;
+  margin-left: 10px;
+}
+
+.fa-download {
+  z-index: 10095;
+  color: white;
+  margin-right: 10px;
+}
+
+.hvr-shrink {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+}
+.hvr-shrink:hover, .hvr-shrink:focus, .hvr-shrink:active {
+  -webkit-transform: scale(.9);
+  transform: scale(.9);
 }
 
 .hvr-grow {
@@ -274,27 +322,22 @@ circle.menu {
   transition-property: transform;
 }
 .hvr-grow:hover, .hvr-grow:focus, .hvr-grow:active {
-  -webkit-transform: scale(.8);
-  transform: scale(.8);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
 }
-
 
 @media screen and (max-height:750px) {
-    #name{font-size: 1.2em; top: ;}
-    #description{font-size: 1.1em; top: ;}
-    .title{top: 35%;}
-    #my-logo{top:20%;}
+    #name {font-size: 1.2em; top: ;}
+    #description {font-size: 1.1em;}
+    .title {top: 37%;}
+    #my-logo {top: 20%;}
+    #head-shot {top: 15%;}
+    #modal1 {height: 50%; top: 45%;}
+    #modal1 > div.modal-content > h4 {font-size: 1.2rem; line-height: 1.2rem}
+    #modal1 > div.modal-content {padding: 14px;}
+    #modal1 > div.modal-footer {display: none}
 }
 
-/*@media screen and (min-height:700px) {
-    #description{font-size: 100%;}
-    .my-menu{top: 61%;}
-}
-*/
-
-.svg {
-  z-index: -2;
-}
 @media screen and (max-width:800px) {
   .modal-content {
     width: 100%;
@@ -304,120 +347,49 @@ circle.menu {
 
 @media screen and (max-height: 1000px){
 
-  .connectors{
-    position: fixed;
-    z-index: 10056;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
-
   .connectors-outline{
-    z-index: 10034;
-    display: none;
-    position: fixed;
-    background-color: transparent;
-    width: 180px;
-    height: 630px;
-    text-align: -webkit-center;
-    border: solid;
-    border-color: white;
-    border-width: 6px;
-    border-radius: 25px;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    width: 160px;
+    height: 610px;
+    border-width: 1px;
   }
 
   #email {
-    display: block;
-    color: #ccccff;
     font-size: 1000%;
   }
 
   #linked-in {
-    display: block;
-    color: #ccccff;
     font-size: 1000%;
   }
 
   #facebook {
-    display: block;
-    color: #ccccff;
     font-size: 1000%;
   }
 
   #github {
-    display: block;
-    color: #ccccff;
     font-size: 1000%;
   }
 }
 
 @media screen and (max-height: 700px){
 
-  .connectors{
-    position: fixed;
-    z-index: 10056;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
-
   .connectors-outline{
-    z-index: 10034;
-    display: none;
-    position: fixed;
-    background-color: transparent;
-    width: 140px;
-    height: 450px;
-    text-align: -webkit-center;
-    border: solid;
-    border-color: white;
-    border-width: 4px;
-    border-radius: 25px;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 430px;
   }
 
   #email {
-    display: block;
-    color: #ccccff;
     font-size: 700%;
   }
 
   #linked-in {
-    display: block;
-    color: #ccccff;
     font-size: 700%;
   }
 
   #facebook {
-    display: block;
-    color: #ccccff;
     font-size: 700%;
   }
 
   #github {
-    display: block;
-    color: #ccccff;
     font-size: 700%;
   }
 }
