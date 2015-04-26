@@ -187,15 +187,7 @@ $(function(){
   })
 
   $('.cv').on('click', function(){
-    $('#lean_overlay').fadeIn();
-    $('#modal2').fadeIn();
-    $('.cv-options').fadeIn();
-  });
-
-  $('.close-cv').on('click', function(){
-    $('#lean_overlay').fadeOut("slow");
-    $('#modal2').fadeOut();
-    $('.cv-options').fadeOut();
+    window.open('http://localhost:8000/assets/CharlieDepmanResume.pdf', '_blank');
   });
 
   $('.my-work').on('click', function(){

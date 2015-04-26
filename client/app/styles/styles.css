@@ -143,12 +143,12 @@ circle.menu {
   display: none;
   position: fixed;
   background-color: transparent;
-  width: 230px;
-  height: 860px;
+  width: 160px;
+  height: 610px;
   text-align: -webkit-center;
   border: solid;
   border-color: white;
-  border-width: 2px;
+  border-width: 1px;
   border-radius: 25px;
   webkit-border-radius:25px;
   -moz-border-radius:25px;
@@ -183,25 +183,25 @@ circle.menu {
 #email {
   display: block;
   color: #FFFFFF;
-  font-size: 1400%;
+  font-size: 1000%;
 }
 
 #linked-in {
   display: block;
   color: #BBE5F7;
-  font-size: 1400%;
+  font-size: 1000%;
 }
 
 #facebook {
   display: block;
   color: #5BC8F7;
-  font-size: 1400%;
+  font-size: 1000%;
 }
 
 #github {
   display: block;
   color: #00AEF9;
-  font-size: 1400%;
+  font-size: 1000%;
 }
 
 #about {
@@ -348,25 +348,25 @@ circle.menu {
 @media screen and (max-height: 1000px){
 
   .connectors-outline{
-    width: 160px;
-    height: 610px;
+    width: 120px;
+    height: 430px;
     border-width: 1px;
   }
 
   #email {
-    font-size: 1000%;
+    font-size: 700%;
   }
 
   #linked-in {
-    font-size: 1000%;
+    font-size: 700%;
   }
 
   #facebook {
-    font-size: 1000%;
+    font-size: 700%;
   }
 
   #github {
-    font-size: 1000%;
+    font-size: 700%;
   }
 }
 
