@@ -1,6 +1,6 @@
 // Declare app level module which depends on views, and components
-var app = angular.module('app', [
-  'app.SoftwareCtrl',
+var app = angular.module('myApp', [
+  'myApp.SoftwareCtrl',
   'ui.router'
 ]);
 
@@ -30,3 +30,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
       controller: 'WritingCtrl'
     })
 })
+
+$(function(){
+  $(".button-collapse").sideNav();
+  $('.materialboxed').materialbox();
+});
