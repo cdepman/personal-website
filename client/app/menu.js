@@ -155,25 +155,25 @@ $(function(){
   });
 
   $('circle.menu').on('mouseenter', function(){
-    $(this).css('stroke-width', 2);
+    $(this).css('stroke-width', 2.5);
   })    
   $('circle.menu').on('mouseleave', function(){
     $(this).css('stroke-width', 1);
   })  
   $('text.about-me').on('mouseenter', function(){
-    $('circle.about-me').css('stroke-width', 2);
+    $('circle.about-me').css('stroke-width', 2.5);
   });
   $('text.blog').on('mouseenter', function(){
-    $('circle.blog').css('stroke-width', 2);
+    $('circle.blog').css('stroke-width', 2.5);
   });
   $('text.cv').on('mouseenter', function(){
-    $('circle.cv').css('stroke-width', 2);
+    $('circle.cv').css('stroke-width', 2.5);
   });
   $('text.connect').on('mouseenter', function(){
-    $('circle.connect').css('stroke-width', 2);
+    $('circle.connect').css('stroke-width', 2.5);
   });
   $('text.my-work').on('mouseenter', function(){
-    $('circle.my-work').css('stroke-width', 2);
+    $('circle.my-work').css('stroke-width', 2.5);
   });
 
   // enter about description and set up listener
@@ -194,7 +194,9 @@ $(function(){
     $('.connectors-background').fadeOut("slow");
     $('.connectors-outline').fadeOut("slow");
     $('.close-connectors').fadeOut("fast");
-    $('.title').css('z-index', 1);
+    setTimeout(function(){
+      $('.title').css('z-index', 1);
+    }, 500);
     $('.cv-options').fadeOut();
   })
 
@@ -202,7 +204,9 @@ $(function(){
     $('#lean_overlay').fadeOut();
     $('#modal1').fadeOut();
     $('#head-shot').fadeOut();
-    $('.title').css('z-index', 1);
+    setTimeout(function(){
+      $('.title').css('z-index', 1);
+    }, 500);
   })
 
   $('.cv').on('click', function(){
