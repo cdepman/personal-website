@@ -206,7 +206,7 @@ $(function(){
   })
 
   $('.cv').on('click', function(){
-    window.open('http://localhost:8000/assets/CharlieDepmanResume.pdf', '_blank');
+    window.open('/assets/CharlieDepmanResume.pdf', '_blank');
   });
 
   $('.my-work').on('click', function(){

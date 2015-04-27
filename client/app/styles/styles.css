@@ -424,3 +424,19 @@ nav .brand-logo.right {
 .row .col {
   padding: 20px 20px 0;
 }
+
+.card .card-image .card-title {
+  background-color: #007BBA;
+  padding: 10px 10px;
+  border: 2px solid black;
+  color: white;
+  border-radius: 50%;
+  height: 62px;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

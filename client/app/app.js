@@ -1,6 +1,9 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('myApp', [
   'myApp.SoftwareCtrl',
+  'myApp.DesignCtrl',
+  'myApp.PhotographyCtrl',
+  'myApp.WritingCtrl',
   'ui.router'
 ]);
 
@@ -33,5 +36,4 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 $(function(){
   $(".button-collapse").sideNav();
-  $('.materialboxed').materialbox();
 });
