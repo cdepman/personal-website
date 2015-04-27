@@ -54,7 +54,6 @@ var textLabels = text
   .attr("x", function(d) { return d.cx; })
   .attr("y", function(d) { return d.cy + textOffset; })
   .text(function(d){
-    console.log(d.name);
     return d.name;
   })
   .attr("class", function(d){return d.class})
@@ -139,8 +138,7 @@ function resize(e){
 // enter connect icons set up listener
 $(function(){
 
-  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"><i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i></a> <a target="_blank" href="http://linkedin.com/in/cdepman"><i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i></a> <a target="_blank" href="http://facebook.com/cdepman"><i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i></a> <a target="_blank" href="http://github.com/cdepman"><i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i></a> </div>'
-
+  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"> <i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i> </a> <a target="_blank" href="http://linkedin.com/in/cdepman"> <i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i> </a> <a target="_blank" href="http://facebook.com/cdepman"> <i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i> </a> <a target="_blank" href="http://github.com/cdepman"> <i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i> </a> </div>';
   $('body').append(connections);
   $('.connectors').toggle();
 
@@ -156,8 +154,29 @@ $(function(){
     connect();
   });
 
+  $('circle.menu').on('mouseenter', function(){
+    $(this).css('stroke-width', 2);
+  })    
+  $('circle.menu').on('mouseleave', function(){
+    $(this).css('stroke-width', 1);
+  })  
+  $('text.about-me').on('mouseenter', function(){
+    $('circle.about-me').css('stroke-width', 2);
+  });
+  $('text.blog').on('mouseenter', function(){
+    $('circle.blog').css('stroke-width', 2);
+  });
+  $('text.cv').on('mouseenter', function(){
+    $('circle.cv').css('stroke-width', 2);
+  });
+  $('text.connect').on('mouseenter', function(){
+    $('circle.connect').css('stroke-width', 2);
+  });
+  $('text.my-work').on('mouseenter', function(){
+    $('circle.my-work').css('stroke-width', 2);
+  });
+
   // enter about description and set up listener
-  var about = "<p id='about'>My passion for using tech for good stems from my experiences living in 15 of the world’s busiest cities. My background includes environmental advocacy, fundraising, and teaching. I also enjoy creative writing (mostly sci-fi) and once considered it as a vocation. But I had a revelation: why not learn how to turn all those exciting ideas into reality instead of just writing about them?<br><br>I talked to friends and mentors and rediscovered coding.<br><br>...I’ve been in love ever since.</p>"
   $('.about-me').on('click', function(){
     $('#head-shot').fadeIn("fast");
     $('#lean_overlay').fadeIn();
@@ -191,7 +210,7 @@ $(function(){
   });
 
   $('.my-work').on('click', function(){
-    window.location.href = 'http://localhost:8000/myWork.html';
+    window.location.href = 'myWork.html';
   });
 
   $('.blog').on('click', function(){

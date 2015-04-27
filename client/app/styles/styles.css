@@ -5,7 +5,6 @@ body {
 circle.menu {
   stroke: #FFFFFF;
   stroke-width: 1;
-  z-index: 10023
 }
 
 #my-logo {
@@ -394,3 +393,34 @@ circle.menu {
   }
 }
 
+/* .................... */
+
+.nav-wrapper {
+  background-color: white;
+}
+
+nav ul a {
+  color: #007BBA;
+}
+
+div.card-content {
+  color: #007BBA;
+}
+
+nav .brand-logo.right {
+  padding: 5px;
+}
+
+.mdi-navigation-menu {
+  color: #007BBA;
+}
+
+@media screen and (max-width: 600px){
+  nav img {
+    height: 45px;
+  }
+}
+
+.row .col.s6 {
+  padding: 20px 20px 0;
+}
