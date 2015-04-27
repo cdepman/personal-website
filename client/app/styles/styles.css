@@ -425,6 +425,10 @@ nav .brand-logo.right {
   padding: 20px 20px 0;
 }
 
+.row .col .s3 {
+  background-color: white;
+}
+
 .card .card-image .card-title {
   background-color: #007BBA;
   padding: 10px 10px;
