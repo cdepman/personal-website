@@ -34,10 +34,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
 })
 
+// activates sideNav
 $(function(){
   $(".button-collapse").sideNav();
-  $("li").on('click', function(){
-    $("li").removeClass("active");
-    $(this).addClass("active");
-  });
 });
