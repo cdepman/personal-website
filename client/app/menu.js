@@ -218,7 +218,7 @@ $(function(){
   });
 
   $('.blog').on('click', function(){
-    window.open('http://cdepman.com', '_blank');
+    window.open('http://madpen.azurewebsites.net', '_blank');
   });
 
   $('i.close-connectors').on('click', function(){
