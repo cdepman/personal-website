@@ -155,6 +155,7 @@ $(function(){
   });
 
   $('circle.menu').on('mouseenter', function(){
+    $('circle.menu').css('stroke-width', 1);
     $(this).css('stroke-width', 2.5);
   })    
   $('circle.menu').on('mouseleave', function(){
