@@ -21,12 +21,12 @@ var menuItems = {
 var n = Object.keys(menuItems).length, // total number of nodes
     m = 1; // number of distinct clusters
 
-function nodeBuilder(label, radius){
+function nodeBuilder(label, radius, options){
   return {
     radius: radius * radiusOffset, 
     color: menuColor, 
-    cx: width/2, 
-    cy: height/2 + menuOffset, 
+    cx: width/2 + options["width"], 
+    cy: height/2 + menuOffset + options["height"], 
     name: label, 
     class: "modal-trigger menu " + label.toLocaleLowerCase().replace(/\s/g, "-"), 
     textSize: textSize,
@@ -34,22 +34,30 @@ function nodeBuilder(label, radius){
   }
 }
 
-function generateNodeArray(){
+function generateNodeArray(option){
   var nodeArray = [];
+  var count = 0
   for (key in menuItems) {
-    nodeArray.push(nodeBuilder(key, menuItems[key]))
+    if (option === "horizontal"){
+      nodeArray.push(nodeBuilder(key, menuItems[key], {width: count+=70, height: 0}))
+    } else if (option === "vertical"){
+      nodeArray.push(nodeBuilder(key, menuItems[key], {width: 0, height: count+=70}))
+    } else {
+      nodeArray.push(nodeBuilder(key, menuItems[key], {width: 0, height: 0}))
+    }
+
   }
-  return nodeArray;
+  return nodeArray; 
 }
 
 
-var nodes = generateNodeArray(menuItems);
+var nodes = generateNodeArray();
 
 var force = d3.layout.force()
   .nodes(nodes)
   .size([width, height])
   .gravity(0)
-  .charge(0)
+  .charge(20)
   .on("tick", tick)
   .start();
 
@@ -146,10 +154,10 @@ function focusNode(name){
     }
   }
 
-  function tick(e) {
+function tick(e) {
   circle
-    .each(gravity(.006 * e.alpha))
-    .each(collide(.7))
+    .each(gravity(.01 * e.alpha))
+    .each(collide(.4))
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; });
   
