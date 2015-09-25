@@ -1,24 +1,49 @@
 var width = window.innerWidth,
-  height = window.innerHeight,
-  padding = 3, // separation between nodes
-  menuColor = "transparent", //["#D9ECF4", "#BBE5F7", "#7BD0F2", "#74ACF2", "#0094F7"], // fill color
-  menuOffset = height < 750 ? 50 : 110, // offset from middle
-  radiusOffset = height < 750 ? .7 : 1,
-  textSize = height < 750 ? '1em' : '1.3em',
-  textColor = "white",
-  textOffset = 6, // offset for text inside circle elements
-  maxRadius = 50 * radiusOffset, // radii
-  cursor = 'pointer',
-  myWork =   { radius: 50 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "My Work", class: "modal-trigger menu my-work", textSize: textSize, cursor: cursor },
-  connect = { radius: 49 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "Connect", class: "modal-trigger menu connect", textSize: textSize, cursor: cursor },
-  aboutMe =   { radius: 37 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "About", class: "modal-trigger menu about-me", textSize: textSize, cursor: cursor },
-  blog =   { radius: 32 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "Blog", class: "modal-trigger menu blog", textSize: textSize, cursor: cursor },
-  cv =   { radius: 24 * radiusOffset, color: menuColor, cx: width/2, cy: height/2 + menuOffset, name: "CV", class: "modal-trigger menu cv", textSize: textSize, cursor: cursor }
+    height = window.innerHeight,
+    padding = 3, // separation between nodes
+    menuColor = "transparent", //["#D9ECF4", "#BBE5F7", "#7BD0F2", "#74ACF2", "#0094F7"], // fill color
+    menuOffset = height < 750 ? 50 : 110, // offset from middle
+    radiusOffset = height < 750 ? .7 : 1,
+    textSize = height < 750 ? '1em' : '1.3em',
+    textColor = "white",
+    textOffset = 6, // offset for text inside circle elements
+    maxRadius = 50 * radiusOffset, // radii
+    cursor = 'pointer'
 
-var n = 5, // total number of nodes
-  m = 1; // number of distinct clusters
+var menuItems = {
+  "CV": 24,
+  "Blog": 32,
+  "About": 37,
+  "Connect": 49,
+  "My Work": 50
+}
 
-var nodes = [ myWork, connect, aboutMe, blog, cv ];
+var n = Object.keys(menuItems).length, // total number of nodes
+    m = 1; // number of distinct clusters
+
+function nodeBuilder(label, radius){
+  return {
+    radius: radius * radiusOffset, 
+    color: menuColor, 
+    cx: width/2, 
+    cy: height/2 + menuOffset, 
+    name: label, 
+    class: "modal-trigger menu " + label.toLocaleLowerCase().replace(/\s/g, "-"), 
+    textSize: textSize,
+    cursor: cursor 
+  }
+}
+
+function generateNodeArray(){
+  var nodeArray = [];
+  for (key in menuItems) {
+    nodeArray.push(nodeBuilder(key, menuItems[key]))
+  }
+  return nodeArray;
+}
+
+
+var nodes = generateNodeArray(menuItems);
 
 var force = d3.layout.force()
   .nodes(nodes)
@@ -67,8 +92,8 @@ var textLabels = text
 
 function tick(e) {
   circle
-    .each(gravity(.2 * e.alpha))
-    .each(collide(.5))
+    .each(gravity(.03 * e.alpha))
+    .each(collide(.7))
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; });
   
@@ -113,7 +138,40 @@ function collide(alpha) {
   };
 }
 
-window.onresize = resize;
+function focusNode(name){
+  resetRadii()
+  for (var i = 0; i < nodes.length; i++){
+    if (nodes[i].name === name){
+      nodes[i].radius += 10;
+    }
+  }
+
+  function tick(e) {
+  circle
+    .each(gravity(.006 * e.alpha))
+    .each(collide(.7))
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; });
+  
+  text
+    .attr("x", function(d) { return d.x; })
+    .attr("y", function(d) { return d.y + textOffset; });
+  }
+
+  d3.layout.force()
+  .nodes(nodes)
+  .size([width, height])
+  .gravity(0)
+  .charge(0)
+  .on("tick", tick)
+  .start();
+}
+
+function resetRadii(){
+  for (var i = 0; i < nodes.length; i++){
+    nodes[i].radius = menuItems[nodes[i].name]
+  }
+}
 
 function resize(e){
   // get width/height of resized window, update SVG, data and force accordingly
@@ -138,6 +196,8 @@ function resize(e){
 // enter connect icons set up listener
 $(function(){
 
+  window.onresize = resize;
+
   var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"> <i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i> </a> <a target="_blank" href="http://linkedin.com/in/cdepman"> <i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i> </a> <a target="_blank" href="http://facebook.com/cdepman"> <i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i> </a> <a target="_blank" href="http://github.com/cdepman"> <i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i> </a> </div>';
   $('body').append(connections);
   $('.connectors').toggle();
@@ -154,31 +214,80 @@ $(function(){
     connect();
   });
 
-  $('circle.menu').on('mouseenter', function(){
+
+  $('circle.menu.my-work').on('mouseleave', function(){
+    resetRadii()
+    force.stop()
+    $(this).css('stroke-width', 1);
+  })
+  $('circle.menu.blog').on('mouseleave', function(){
+    resetRadii()
+    force.stop()
+    $(this).css('stroke-width', 1);
+  })
+  $('circle.menu.cv').on('mouseleave', function(){
+    resetRadii()
+    force.stop()
+    $(this).css('stroke-width', 1);
+  })
+  $('circle.menu.connect').on('mouseleave', function(){
+    resetRadii()
+    force.stop()
+    $(this).css('stroke-width', 1);
+  })
+  $('circle.menu.about').on('mouseleave', function(){
+    resetRadii()
+    force.stop()
+    $(this).css('stroke-width', 1);
+  })
+  $('circle.menu.my-work').on('mouseenter', function(){
+    focusNode("My Work")
     $('circle.menu').css('stroke-width', 1);
     $(this).css('stroke-width', 2.5);
-  })    
-  $('circle.menu').on('mouseleave', function(){
-    $(this).css('stroke-width', 1);
-  })  
-  $('text.about-me').on('mouseenter', function(){
-    $('circle.about-me').css('stroke-width', 2.5);
+  })
+  $('circle.menu.blog').on('mouseenter', function(){
+    focusNode("Blog")
+    $('circle.menu').css('stroke-width', 1);
+    $(this).css('stroke-width', 2.5);
+  })
+  $('circle.menu.cv').on('mouseenter', function(){
+    focusNode("CV")
+    $('circle.menu').css('stroke-width', 1);
+    $(this).css('stroke-width', 2.5);
+  })
+  $('circle.menu.connect').on('mouseenter', function(){
+    focusNode("Connect")
+    $('circle.menu').css('stroke-width', 1);
+    $(this).css('stroke-width', 2.5);
+  })
+  $('circle.menu.about').on('mouseenter', function(){
+    focusNode("About")
+    $('circle.menu').css('stroke-width', 1);
+    $(this).css('stroke-width', 2.5);
+  })
+  $('text.about').on('mouseenter', function(){
+    focusNode("About");
+    $('circle.about').css('stroke-width', 2.5);
   });
   $('text.blog').on('mouseenter', function(){
+    focusNode("Blog")
     $('circle.blog').css('stroke-width', 2.5);
   });
   $('text.cv').on('mouseenter', function(){
+    focusNode("CV")
     $('circle.cv').css('stroke-width', 2.5);
   });
   $('text.connect').on('mouseenter', function(){
+    focusNode("Connect")
     $('circle.connect').css('stroke-width', 2.5);
   });
   $('text.my-work').on('mouseenter', function(){
+    focusNode("My Work")
     $('circle.my-work').css('stroke-width', 2.5);
   });
 
   // enter about description and set up listener
-  $('.about-me').on('click', function(){
+  $('.about').on('click', function(){
     $('#head-shot').fadeIn("fast");
     $('#lean_overlay').fadeIn();
     $('#modal1').fadeIn();
