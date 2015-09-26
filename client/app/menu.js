@@ -1,6 +1,6 @@
 var width = window.innerWidth,
     height = window.innerHeight,
-    padding = 3, // separation between nodes
+    padding = 4, // separation between nodes
     menuColor = "transparent", //["#D9ECF4", "#BBE5F7", "#7BD0F2", "#74ACF2", "#0094F7"], // fill color
     menuOffset = height < 750 ? 50 : 110, // offset from middle
     radiusOffset = height < 750 ? .7 : 1,
@@ -34,13 +34,13 @@ function nodeBuilder(label, radius, options){
   }
 }
 
-function generateNodeArray(option){
+function generateNodeArray(alignment){
   var nodeArray = [];
   var count = 0
   for (key in menuItems) {
-    if (option === "horizontal"){
+    if (alignment === "horizontal"){
       nodeArray.push(nodeBuilder(key, menuItems[key], {width: count+=70, height: 0}))
-    } else if (option === "vertical"){
+    } else if (alignment === "vertical"){
       nodeArray.push(nodeBuilder(key, menuItems[key], {width: 0, height: count+=70}))
     } else {
       nodeArray.push(nodeBuilder(key, menuItems[key], {width: 0, height: 0}))
@@ -57,7 +57,7 @@ var force = d3.layout.force()
   .nodes(nodes)
   .size([width, height])
   .gravity(0)
-  .charge(20)
+  .charge(0)
   .on("tick", tick)
   .start();
 
@@ -150,14 +150,14 @@ function focusNode(name){
   resetRadii()
   for (var i = 0; i < nodes.length; i++){
     if (nodes[i].name === name){
-      nodes[i].radius += 10;
+      nodes[i].radius *= 1.5;
     }
   }
 
 function tick(e) {
   circle
-    .each(gravity(.01 * e.alpha))
-    .each(collide(.4))
+    .each(gravity(.03 * e.alpha))
+    .each(collide(.8))
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; });
   
@@ -336,7 +336,7 @@ $(function(){
   });
 
   $('.blog').on('click', function(){
-    window.open('http://madpen.azurewebsites.net', '_blank');
+    window.open('http://blog.charlied.xyz', '_blank');
   });
 
   $('i.close-connectors').on('click', function(){
