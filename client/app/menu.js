@@ -1,3 +1,5 @@
+////////////// Set Up D3 Vars //////////////
+
 var width = window.innerWidth,
     height = window.innerHeight,
     padding = 4, // separation between nodes
@@ -160,7 +162,6 @@ function collide(alpha) {
 }
 
 function focusNode(name){
-  resetRadii()
   var targetNode = getNodeByName(name);
   var otherNodes = getNonTargetNodesByName(name);
   otherNodes.forEach(function(node){
@@ -183,7 +184,7 @@ function resetRadii(){
   }
   circle.attr("r", function(d) {return d.radius});
 }
-
+// to do : only reposition if in logo/title area
 function resetPosition(){
   for (var i = 0; i < nodes.length; i++){
     nodes[i].cx = width / 2;
@@ -237,7 +238,8 @@ function resize(e){
 }
 
 
-// enter connect icons set up listener
+////////////// Set Up Listeners //////////////
+
 $(function(){
 
   window.onresize = resize;
@@ -260,31 +262,26 @@ $(function(){
 
 
   $('circle.menu.my-work').on('mouseleave', function(){
-    resetRadii()
     resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.blog').on('mouseleave', function(){
-    resetRadii()
     resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.cv').on('mouseleave', function(){
-    resetRadii()
     resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.connect').on('mouseleave', function(){
-    resetRadii()
     resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.about').on('mouseleave', function(){
-    resetRadii()
     resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
