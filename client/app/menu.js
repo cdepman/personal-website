@@ -6,9 +6,12 @@ var width = window.innerWidth,
     radiusOffset = height < 750 ? .7 : 1,
     textSize = height < 750 ? '1em' : '1.3em',
     textColor = "white",
-    textOffset = 6, // offset for text inside circle elements
+    textOffset = height < 750 ? 4 : 6, // offset for text inside circle elements
     maxRadius = 50 * radiusOffset, // radii
-    cursor = 'pointer'
+    cursor = 'pointer',
+    strokeWidth = 1,
+    stroke = "#FFFFFF",
+    strokeDash = 0
 
 var menuItems = {
   "CV": 24,
@@ -25,27 +28,35 @@ function nodeBuilder(label, radius, options){
   return {
     radius: radius * radiusOffset, 
     color: menuColor, 
-    cx: width/2 + options["width"], 
-    cy: height/2 + menuOffset + options["height"], 
+    cx: width/2 + options["x"], 
+    cy: height/2 + menuOffset + options["y"], 
     name: label, 
     class: "modal-trigger menu " + label.toLocaleLowerCase().replace(/\s/g, "-"), 
     textSize: textSize,
-    cursor: cursor 
+    cursor: cursor,
+    strokeWidth: strokeWidth,
+    stroke: stroke,
+    strokeDash: strokeDash
   }
 }
 
 function generateNodeArray(alignment){
   var nodeArray = [];
   var count = 0
+  var angle = 0
   for (key in menuItems) {
     if (alignment === "horizontal"){
-      nodeArray.push(nodeBuilder(key, menuItems[key], {width: count+=70, height: 0}))
+      nodeArray.push(nodeBuilder(key, menuItems[key], {x: -200 + (count+=60), y: 0}))
     } else if (alignment === "vertical"){
-      nodeArray.push(nodeBuilder(key, menuItems[key], {width: 0, height: count+=70}))
+      nodeArray.push(nodeBuilder(key, menuItems[key], {x: 0, y: -180 + (count+=60)}))
+    } else if (alignment === "spiral"){
+      angle = 0.2 * (count+=3.5);
+      var xOffset = -60 - (35 * angle * Math.cos(angle));
+      var yOffset = (35 * angle * Math.sin(angle));
+      nodeArray.push(nodeBuilder(key, menuItems[key], {x: xOffset, y: yOffset}));
     } else {
-      nodeArray.push(nodeBuilder(key, menuItems[key], {width: 0, height: 0}))
+      nodeArray.push(nodeBuilder(key, menuItems[key], {x: 0, y: 0}))
     }
-
   }
   return nodeArray; 
 }
@@ -75,6 +86,8 @@ var circle = svg.selectAll("circle")
   .attr("r", function(d) { return d.radius; })
   .style("fill", function(d) { return d.color; })
   .style("cursor", function(d) { return d.cursor; })
+  .style("stroke-width", function(d) { return d.strokeWidth; })
+  .style("stroke", function(d) { return d.stroke; })
   .call(force.drag);
 
 var text = svg.selectAll("text")
@@ -100,7 +113,7 @@ var textLabels = text
 
 function tick(e) {
   circle
-    .each(gravity(.03 * e.alpha))
+    .each(gravity(.05 * e.alpha))
     .each(collide(.7))
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; });
@@ -148,23 +161,12 @@ function collide(alpha) {
 
 function focusNode(name){
   resetRadii()
-  for (var i = 0; i < nodes.length; i++){
-    if (nodes[i].name === name){
-      nodes[i].radius *= 1.5;
-    }
-  }
-
-function tick(e) {
-  circle
-    .each(gravity(.03 * e.alpha))
-    .each(collide(.8))
-    .attr("cx", function(d) { return d.x; })
-    .attr("cy", function(d) { return d.y; });
-  
-  text
-    .attr("x", function(d) { return d.x; })
-    .attr("y", function(d) { return d.y + textOffset; });
-  }
+  var targetNode = getNodeByName(name);
+  var otherNodes = getNonTargetNodesByName(name);
+  otherNodes.forEach(function(node){
+    node.cx = targetNode.x;
+    node.cy = targetNode.y;
+  });
 
   d3.layout.force()
   .nodes(nodes)
@@ -179,6 +181,40 @@ function resetRadii(){
   for (var i = 0; i < nodes.length; i++){
     nodes[i].radius = menuItems[nodes[i].name]
   }
+  circle.attr("r", function(d) {return d.radius});
+}
+
+function resetPosition(){
+  for (var i = 0; i < nodes.length; i++){
+    nodes[i].cx = width / 2;
+    nodes[i].cy = height / 2 + menuOffset;
+  }
+  d3.layout.force()
+  .nodes(nodes)
+  .size([width, height])
+  .gravity(0)
+  .charge(0)
+  .on("tick", tick)
+  .start();
+}
+
+function getNodeByName(name){
+  for (var i = 0; i < nodes.length; i++){
+    if (nodes[i].name === name){
+      return nodes[i];
+    }
+  }
+  return {}
+}
+
+function getNonTargetNodesByName(name){
+  var others = []
+  for (var i = 0; i < nodes.length; i++){
+    if (nodes[i].name !== name){
+      others.push(nodes[i]);
+    }
+  }
+  return others
 }
 
 function resize(e){
@@ -225,26 +261,31 @@ $(function(){
 
   $('circle.menu.my-work').on('mouseleave', function(){
     resetRadii()
+    resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.blog').on('mouseleave', function(){
     resetRadii()
+    resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.cv').on('mouseleave', function(){
     resetRadii()
+    resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.connect').on('mouseleave', function(){
     resetRadii()
+    resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.about').on('mouseleave', function(){
     resetRadii()
+    resetPosition() 
     force.stop()
     $(this).css('stroke-width', 1);
   })
