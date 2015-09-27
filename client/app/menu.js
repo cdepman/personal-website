@@ -179,7 +179,7 @@ function focusNode(name){
 
 function resetRadii(){
   for (var i = 0; i < nodes.length; i++){
-    nodes[i].radius = menuItems[nodes[i].name]
+    nodes[i].radius = menuItems[nodes[i].name] * radiusOffset;
   }
   circle.attr("r", function(d) {return d.radius});
 }
