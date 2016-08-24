@@ -28,12 +28,12 @@ var n = Object.keys(menuItems).length, // total number of nodes
 
 function nodeBuilder(label, radius, options){
   return {
-    radius: radius * radiusOffset, 
-    color: menuColor, 
-    cx: width/2 + options["x"], 
-    cy: height/2 + menuOffset + options["y"], 
-    name: label, 
-    class: "modal-trigger menu " + label.toLocaleLowerCase().replace(/\s/g, "-"), 
+    radius: radius * radiusOffset,
+    color: menuColor,
+    cx: width/2 + options["x"],
+    cy: height/2 + menuOffset + options["y"],
+    name: label,
+    class: "modal-trigger menu " + label.toLocaleLowerCase().replace(/\s/g, "-"),
     textSize: textSize,
     cursor: cursor,
     strokeWidth: strokeWidth,
@@ -60,7 +60,7 @@ function generateNodeArray(alignment){
       nodeArray.push(nodeBuilder(key, menuItems[key], {x: 0, y: 0}))
     }
   }
-  return nodeArray; 
+  return nodeArray;
 }
 
 
@@ -119,7 +119,7 @@ function tick(e) {
     .each(collide(.7))
     .attr("cx", function(d) { return d.x; })
     .attr("cy", function(d) { return d.y; });
-  
+
   text
     .attr("x", function(d) { return d.x; })
     .attr("y", function(d) { return d.y + textOffset; });
@@ -244,7 +244,7 @@ $(function(){
 
   window.onresize = resize;
 
-  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepaman@gmail.com"> <i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i> </a> <a target="_blank" href="http://linkedin.com/in/cdepman"> <i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i> </a> <a target="_blank" href="http://facebook.com/cdepman"> <i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i> </a> <a target="_blank" href="http://github.com/cdepman"> <i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i> </a> </div>';
+  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepman@gmail.com"> <i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i> </a> <a target="_blank" href="http://linkedin.com/in/cdepman"> <i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i> </a> <a target="_blank" href="http://facebook.com/cdepman"> <i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i> </a> <a target="_blank" href="http://github.com/cdepman"> <i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i> </a> </div>';
   $('body').append(connections);
   $('.connectors').toggle();
 
@@ -262,27 +262,27 @@ $(function(){
 
 
   $('circle.menu.my-work').on('mouseleave', function(){
-    resetPosition() 
+    resetPosition()
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.blog').on('mouseleave', function(){
-    resetPosition() 
+    resetPosition()
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.cv').on('mouseleave', function(){
-    resetPosition() 
+    resetPosition()
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.connect').on('mouseleave', function(){
-    resetPosition() 
+    resetPosition()
     force.stop()
     $(this).css('stroke-width', 1);
   })
   $('circle.menu.about').on('mouseleave', function(){
-    resetPosition() 
+    resetPosition()
     force.stop()
     $(this).css('stroke-width', 1);
   })
