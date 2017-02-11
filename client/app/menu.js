@@ -1,101 +1,150 @@
 ////////////// Set Up D3 Vars //////////////
 
-var width = window.innerWidth,
-    height = window.innerHeight,
-    padding = 4, // separation between nodes
-    menuColor = "transparent", //["#D9ECF4", "#BBE5F7", "#7BD0F2", "#74ACF2", "#0094F7"], // fill color
-    menuOffset = height < 750 ? 50 : 110, // offset from middle
-    radiusOffset = height < 750 ? .7 : 1,
-    textSize = height < 750 ? '1em' : '1.3em',
-    textColor = "white",
-    textOffset = height < 750 ? 4 : 6, // offset for text inside circle elements
-    maxRadius = 50 * radiusOffset, // radii
-    cursor = 'pointer',
-    strokeWidth = 1,
-    stroke = "#FFFFFF",
-    strokeDash = 0
-
-var menuItems = {
-  "CV": 24,
-  "Blog": 32,
-  "About": 37,
-  "Connect": 49,
-  "My Work": 50,
-  "Drag Me": 50
+var Space = {
+  width : window.innerWidth,
+  height : window.innerHeight
 }
 
-var n = Object.keys(menuItems).length, // total number of nodes
-    m = 1; // number of distinct clusters
+var DEFAULTS = {
+  name: Date.now().toString(),
+  color: "transparent",
+  cx: Space.width/2,
+  cy: Space.height/2 + (Space.height < 750 ? 50 : 110),
+  class: "modal-trigger menu" + this.name.toLocaleLowerCase().replace(/\s/g, "-"),
+  id: "overwrite_me",
+  padding: 4, // separation between nodes
+  menuOffset: (Space.height < 750 ? 50 : 110), // offset from middle
+  radiusOffset: (Space.height < 750 ? 0.7 : 1),
+  text: "howdy!",
+  textSize: (Space.height < 750 ? '1em' : '1.3em'),
+  textColor: "white",
+  textOffset: (Space.height < 750 ? 4 : 6), // offset for text inside circle elements
+  maxRadius: (50 * (Space.height < 750 ? 0.7 : 1)), // radii
+  cursor: 'pointer',
+  strokeWidth: 1,
+  stroke: "#FFFFFF", // perimeter color
+  strokeDash: 0,
+  radius: 50,
+  text_anchor: "middle",
+  font_family: "'Raleway', sans-serif",
+  font_weight: "200"
+}
 
-function nodeBuilder(label, radius, options){
+function createNode(params){
   return {
-    radius: radius * radiusOffset,
-    color: menuColor,
-    cx: options["override"] ? options["x"] : (width/2 + options["x"]),
-    cy: options["override"] ? options["y"] : (height/2 + menuOffset + options["y"]),
-    name: label,
-    class: "modal-trigger menu " + label.toLocaleLowerCase().replace(/\s/g, "-"),
-    textSize: textSize,
-    cursor: cursor,
-    strokeWidth: strokeWidth,
-    stroke: stroke,
-    strokeDash: strokeDash
-  }
+    name: textToName(params["name"]) || DEFAULTS["name"],
+    id: textToName(params["name"]) || DEFAULTS["id"],
+    color: params["color"] || DEFAULTS["color"],
+    cx: params["cx"] || DEFAULTS["cx"],
+    cy: params["cy"] || DEFAULTS["cy"],
+    class: params["class"] || DEFAULTS["class"],
+    menuOffset: params["menuOffset"] || DEFAULTS["menuOffset"],
+    radiusOffset: params["radiusOffset"] || DEFAULTS["radiusOffset"],
+    text: params["text"] || DEFAULTS["text"],
+    textSize: params["textSize"] || DEFAULTS["textSize"],
+    textColor: params["textColor"] || DEFAULTS["textColor"],
+    textOffset: params["textOffset"] || DEFAULTS["textOffset"],
+    maxRadius: params["maxRadius"] || DEFAULTS["maxRadius"],
+    cursor: params["cursor"] || DEFAULTS["cursor"],
+    strokeWidth: params["strokeWidth"] || DEFAULTS["strokeWidth"],
+    stroke: params["stroke"] || DEFAULTS["stroke"],
+    strokeDash: params["stroke"] || DEFAULTS["stroke"],
+    radius: params["radius"] || DEFAULTS["radius"],
+    text_anchor: params["text_anchor"] || DEFAULTS["radius"],
+    font_family: params["font_family"] || DEFAULTS["radius"],
+    font_weight: params["font_weight"] || DEFAULTS["radius"]
+  };
 }
 
-function generateNodeArray(alignment){
-  var nodeArray = [];
-  var count = 0
-  var angle = 0
-  for (nameKey in menuItems) {
-    var radius = menuItems[nameKey];
-    if (alignment === "horizontal"){
-      nodeArray.push(nodeBuilder(nameKey, radius, {x: -200 + (count+=60), y: 0}))
-    } else if (alignment === "vertical"){
-      nodeArray.push(nodeBuilder(nameKey, radius, {x: 0, y: -180 + (count+=60)}))
-    } else if (alignment === "spiral"){
-      angle = 0.2 * (count+=3.5);
-      var xOffset = -60 - (35 * angle * Math.cos(angle));
-      var yOffset = (35 * angle * Math.sin(angle));
-      nodeArray.push(nodeBuilder(nameKey, radius, {x: xOffset, y: yOffset}));
-    } else {
-      nodeArray.push(nodeBuilder(nameKey, radius, {x: 0, y: 0}))
-    }
-  }
-  return nodeArray;
+function textToName(name){
+  if (!name) { return null }
+  return name.toLocaleLowerCase().split(" ").join("_")
 }
 
-function fetchNodeArray(){
+function createMenuItems(){
+  return [
+    createNode({
+      "radius": 24,
+      "text": "CV"
+    }),
+    createNode({
+      "radius": 32,
+       "text": "Blog"
+     }),
+    createNode({
+      "radius": 37,
+       "text": "About"
+     }),
+    createNode({
+      "radius": 49,
+       "text": "Connect"
+     }),
+    createNode({
+      "radius": 50,
+       "text": "My Work"
+     }),
+    createNode({
+      "radius": 40,
+      "textSize": "0.9em",
+      "fill": "red",
+      "textColor": "pink",
+      "text": "Drag Me"
+    })
+  ];
+}
+
+
+// TODO: refactor
+// function generateNodeArray(alignment){
+//   var nodeArray = [];
+//   var count = 0
+//   var angle = 0
+//   for (nameKey in menuItems) {
+//     var radius = menuItems[nameKey];
+//     if (alignment === "horizontal"){
+//       nodeArray.push(nodeBuilder(nameKey, radius, {x: -200 + (count+=60), y: 0}))
+//     } else if (alignment === "vertical"){
+//       nodeArray.push(nodeBuilder(nameKey, radius, {x: 0, y: -180 + (count+=60)}))
+//     } else if (alignment === "spiral"){
+//       angle = 0.2 * (count+=3.5);
+//       var xOffset = -60 - (35 * angle * Math.cos(angle));
+//       var yOffset = (35 * angle * Math.sin(angle));
+//       nodeArray.push(nodeBuilder(nameKey, radius, {x: xOffset, y: yOffset}));
+//     } else {
+//       nodeArray.push(nodeBuilder(nameKey, radius, {x: 0, y: 0}))
+//     }
+//   }
+//   return nodeArray;
+// }
+
+function fetchMenuItems(){
   if (position = getMenuPosition()){
     var positionArray = position.split(",");
     var x = positionArray[0];
     var y = positionArray[1];
-    var nodeArray = [];
-    for (nameKey in menuItems) {
-      var radius = menuItems[nameKey];
-      var node = nodeBuilder(nameKey, radius, {x: x, y: y, override: true})
-      nodeArray.push(node);
-    }
-    return nodeArray;
+    var newMenu = createMenuItems();
+    newMenu.forEach(function(i){i["cx"] = x; i["cy"] = y;});
+    return newMenu;
   } else {
     return null;
   }
 }
 
-
-var nodes = fetchNodeArray() || generateNodeArray();
+var nodes = fetchMenuItems() || createMenuItems();
+var n = nodes.length, // total number of nodes
+m = 1; // number of distinct clusters
 
 var force = d3.layout.force()
   .nodes(nodes)
-  .size([width, height])
+  .size([Space.width, Space.height])
   .gravity(0)
   .charge(0)
   .on("tick", tick)
   .start();
 
 var svg = d3.select("body").append("svg")
-  .attr("width", width)
-  .attr("height", height)
+  .attr("width", Space.width)
+  .attr("height", Space.height)
   .style("position", 'fixed')
   .style("top", 0);
 
@@ -119,17 +168,15 @@ var text = svg.selectAll("text")
 
 var textLabels = text
   .attr("x", function(d) { return d.cx; })
-  .attr("y", function(d) { return d.cy + textOffset; })
-  .text(function(d){
-    return d.name;
-  })
-  .attr("class", function(d){return d.class})
-  .attr("text-anchor", "middle")
-  .attr("font-family", "'Raleway', sans-serif")
-  .attr("font-weight", "200")
-  .attr("font-size", function(d){return d.textSize})
-  .attr("fill", textColor)
-  .style("cursor", function(d) { return d.cursor; });
+  .attr("y", function(d) { return d.cy + d.textOffset; })
+  .text(function(d){ return d.name; })
+  .attr("class", function(d){ return d.class })
+  .attr("text-anchor", function(d){ return d.text_anchor })
+  .attr("font-family", function(d){ return d.font_family })
+  .attr("font-weight", function(d){ return d.font_weight })
+  .attr("font-size", function(d){ return d.textSize })
+  .attr("fill", function(d){ return d.textColor} ))
+  .style("cursor", function(d){ return d.cursor; } );
 
 
 function tick(e) {
@@ -141,7 +188,7 @@ function tick(e) {
 
   text
     .attr("x", function(d) { return d.x; })
-    .attr("y", function(d) { return d.y + textOffset; });
+    .attr("y", function(d) { return d.y + d.textOffset; });
 }
 
 // Move nodes toward cluster focus.
@@ -156,7 +203,7 @@ function gravity(alpha) {
 function collide(alpha) {
   var quadtree = d3.geom.quadtree(nodes);
   return function(d) {
-    var r = d.radius + maxRadius + padding,
+    var r = d.radius + d.maxRadius + d.padding,
       nx1 = d.x - r,
       nx2 = d.x + r,
       ny1 = d.y - r,
@@ -166,7 +213,7 @@ function collide(alpha) {
         var x = d.x - quad.point.x,
           y = d.y - quad.point.y,
           l = Math.sqrt(x * x + y * y),
-          r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
+          r = d.radius + quad.point.radius + (d.color !== quad.point.color) * d.padding;
         if (l < r) {
           l = (l - r) / l * alpha;
           d.x -= x *= l;
@@ -190,7 +237,7 @@ function focusNode(name){
 
   d3.layout.force()
   .nodes(nodes)
-  .size([width, height])
+  .size([Space.width, Space.height])
   .gravity(0)
   .charge(0)
   .on("tick", tick)
@@ -206,12 +253,12 @@ function resetRadii(){
 
 function resetPosition(){
   for (var i = 0; i < nodes.length; i++){
-    nodes[i].cx = width / 2;
-    nodes[i].cy = height / 2 + menuOffset;
+    nodes[i].cx = Space.width / 2;
+    nodes[i].cy = Space.height / 2 + menuOffset;
   }
   d3.layout.force()
   .nodes(nodes)
-  .size([width, height])
+  .size([Space.width, Space.height])
   .gravity(0)
   .charge(0)
   .on("tick", tick)
@@ -264,17 +311,14 @@ function setMenuPosition(centralNode){
   var x = parseInt(centralNode.x);
   var y = parseInt(centralNode.y);
   var positionString = x.toString() + "," + y.toString();
-  console.log("SETTING POSITOIN");
   localStorage.setItem("menuPosition", positionString);
 }
 
 function resetMenuPosition(){
-  console.log("RESETTING POSITOIN");
   localStorage.removeItem("menuPosition");
 }
 
 function getMenuPosition(){
-  console.log("GETTING POSITOIN");
   return localStorage.getItem("menuPosition");
 }
 
@@ -337,64 +381,73 @@ $(function(){
     $(element).css('stroke-width', 1);
   }
 
+  function createAndSetListeners(){
+
+  }
+
+  var listeners = {
+    'mouseleave': doMouseLeaveActions,
+    'mouseenter': doMouseEnterActions
+  }
+
   $('circle.menu.my-work').on('mouseleave', function(){
-    doMouseLeaveActions(this, "My Work");
+    doMouseLeaveActions(this, "my_work");
   })
   $('circle.menu.blog').on('mouseleave', function(){
-    doMouseLeaveActions(this, "Blog");
+    doMouseLeaveActions(this, "blog");
   })
   $('circle.menu.cv').on('mouseleave', function(){
-    doMouseLeaveActions(this, "CV");
+    doMouseLeaveActions(this, "cv");
   })
   $('circle.menu.connect').on('mouseleave', function(){
-    doMouseLeaveActions(this, "Connect");
+    doMouseLeaveActions(this, "connect");
   })
   $('circle.menu.about').on('mouseleave', function(){
-    doMouseLeaveActions(this, "About");
+    doMouseLeaveActions(this, "about");
   })
   $('circle.menu.my-work').on('mouseenter', function(){
-    focusNode("My Work")
+    focusNode("my_work")
     $('circle.menu').css('stroke-width', 1);
     $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.blog').on('mouseenter', function(){
-    focusNode("Blog")
+    focusNode("blog")
     $('circle.menu').css('stroke-width', 1);
     $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.cv').on('mouseenter', function(){
-    focusNode("CV")
+    focusNode("cv")
     $('circle.menu').css('stroke-width', 1);
     $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.connect').on('mouseenter', function(){
-    focusNode("Connect")
+    focusNode("connect")
     $('circle.menu').css('stroke-width', 1);
     $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.about').on('mouseenter', function(){
-    focusNode("About")
+    focusNode("about")
     $('circle.menu').css('stroke-width', 1);
     $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('text.about').on('mouseenter', function(){
-    focusNode("About");
+    focusNode("about");
     $('circle.about').css('stroke-width', highLightStrokeWidth);
   });
   $('text.blog').on('mouseenter', function(){
-    focusNode("Blog")
+    focusNode("blog")
     $('circle.blog').css('stroke-width', highLightStrokeWidth);
   });
   $('text.cv').on('mouseenter', function(){
-    focusNode("CV")
+    focusNode("cv")
     $('circle.cv').css('stroke-width', highLightStrokeWidth);
   });
   $('text.connect').on('mouseenter', function(){
-    focusNode("Connect")
+    focusNode("connect")
     $('circle.connect').css('stroke-width', highLightStrokeWidth);
   });
   $('text.my-work').on('mouseenter', function(){
-    focusNode("My Work")
+    focusNode("my_work")
     $('circle.my-work').css('stroke-width', highLightStrokeWidth);
   });
 
