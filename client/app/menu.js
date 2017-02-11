@@ -22,6 +22,7 @@ var DEFAULTS = {
   maxRadius: (50 * (Space.height < 750 ? 0.7 : 1)), // radii
   cursor: 'pointer',
   strokeWidth: 1,
+  normalStrokeWidth: 1,
   highLightStrokeWidth: 2.5,
   stroke: "#FFFFFF", // perimeter color
   strokeDash: 0,
@@ -55,7 +56,8 @@ function createNode(params){
     radius: params["radius"] || DEFAULTS["radius"],
     text_anchor: params["text_anchor"] || DEFAULTS["text_anchor"],
     font_family: params["font_family"] || DEFAULTS["font_family"],
-    font_weight: params["font_weight"] || DEFAULTS["font_weight"]
+    font_weight: params["font_weight"] || DEFAULTS["font_weight"],
+    normalStrokeWidth: params["normalStrokeWidth"] || DEFAULTS["normalStrokeWidth"]
   };
 }
 
@@ -234,16 +236,39 @@ function collide(alpha) {
   };
 }
 
+function highligtNode(node){
+  document.getElementById(node.id).style.strokeWidth = node.highLightStrokeWidth;
+}
+
+function unhighlightNode(node){
+  document.getElementById(node.id).style.strokeWidth = node.normalStrokeWidth;
+}
+
 function focusNode(id){
+  console.log(id);
   var targetNode = getNodeById(id);
+  highligtNode(targetNode);
   targetNode.strokeWidth = 2.5;
   var otherNodes = getNonTargetNodesByName(id);
   otherNodes.forEach(function(node){
     node.cx = targetNode.x;
     node.cy = targetNode.y;
-    node.strokeWidth = 1;
+    unhighlightNode(node);
   });
 
+  d3.layout.force()
+  .nodes(nodes)
+  .size([Space.width, Space.height])
+  .gravity(0)
+  .charge(0)
+  .on("tick", tick)
+  .start();
+  return targetNode;
+}
+
+function defocusNode(id){
+  var targetNode = getNodeById(id);
+  unhighlightNode(targetNode);
   d3.layout.force()
   .nodes(nodes)
   .size([Space.width, Space.height])
@@ -383,11 +408,10 @@ $(function(){
   }
 
   function doMouseLeaveActions(event){
-    var node = getNodeById(event.target.id);
+    var node = defocusNode(event.target.id);
     setMenuPosition(node);
     resetIfOverlappingWithUntouchables(event.target);
     force.stop();
-    $("#" + event.target.id).css('stroke-width', node.strokeWidth);
   }
 
   function doMouseEnterActions(event){
