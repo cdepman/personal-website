@@ -22,23 +22,25 @@ var DEFAULTS = {
   maxRadius: (50 * (Space.height < 750 ? 0.7 : 1)), // radii
   cursor: 'pointer',
   strokeWidth: 1,
+  highLightStrokeWidth: 2.5,
   stroke: "#FFFFFF", // perimeter color
   strokeDash: 0,
   radius: 50,
   text_anchor: "middle",
   font_family: "'Raleway', sans-serif",
-  font_weight: "200"
+  font_weight: "200",
 }
 
 function createNode(params){
   return {
-    name: textToName(params["name"]) || DEFAULTS["name"],
-    id: textToName(params["name"]) || DEFAULTS["id"],
+    name: textToName(params["text"]) || DEFAULTS["name"],
+    id: textToName(params["text"]) || DEFAULTS["id"],
     color: params["color"] || DEFAULTS["color"],
     cx: params["cx"] || DEFAULTS["cx"],
     cy: params["cy"] || DEFAULTS["cy"],
     class: params["class"] || DEFAULTS["class"],
     menuOffset: params["menuOffset"] || DEFAULTS["menuOffset"],
+    padding: params["padding"] || DEFAULTS["padding"],
     radiusOffset: params["radiusOffset"] || DEFAULTS["radiusOffset"],
     text: params["text"] || DEFAULTS["text"],
     textSize: params["textSize"] || DEFAULTS["textSize"],
@@ -47,12 +49,13 @@ function createNode(params){
     maxRadius: params["maxRadius"] || DEFAULTS["maxRadius"],
     cursor: params["cursor"] || DEFAULTS["cursor"],
     strokeWidth: params["strokeWidth"] || DEFAULTS["strokeWidth"],
+    highLightStrokeWidth: params["highLightStrokeWidth"] || DEFAULTS["highLightStrokeWidth"],
     stroke: params["stroke"] || DEFAULTS["stroke"],
-    strokeDash: params["stroke"] || DEFAULTS["stroke"],
+    strokeDash: params["strokeDash"] || DEFAULTS["strokeDash"],
     radius: params["radius"] || DEFAULTS["radius"],
-    text_anchor: params["text_anchor"] || DEFAULTS["radius"],
-    font_family: params["font_family"] || DEFAULTS["radius"],
-    font_weight: params["font_weight"] || DEFAULTS["radius"]
+    text_anchor: params["text_anchor"] || DEFAULTS["text_anchor"],
+    font_family: params["font_family"] || DEFAULTS["font_family"],
+    font_weight: params["font_weight"] || DEFAULTS["font_weight"]
   };
 }
 
@@ -69,26 +72,28 @@ function createMenuItems(){
     }),
     createNode({
       "radius": 32,
-       "text": "Blog"
+      "text": "Blog"
      }),
     createNode({
       "radius": 37,
-       "text": "About"
+      "text": "About"
      }),
     createNode({
       "radius": 49,
-       "text": "Connect"
+      "text": "Connect"
      }),
     createNode({
       "radius": 50,
-       "text": "My Work"
+      "text": "My Work"
      }),
     createNode({
-      "radius": 40,
+      "radius": 35,
       "textSize": "0.9em",
-      "fill": "red",
+      "color": "red",
       "textColor": "pink",
-      "text": "Drag Me"
+      "text": "Drag Me",
+      "strokeWidth": "0",
+      "highLightStrokeWidth": "0",
     })
   ];
 }
@@ -153,6 +158,7 @@ var circle = svg.selectAll("circle")
   .enter().append("circle")
   .attr("href", "#modal1")
   .attr("class", function(d) {return d.class})
+  .attr("id", function(d){ return d.id })
   .attr("r", function(d) { return d.radius; })
   .style("fill", function(d) { return d.color; })
   .style("cursor", function(d) { return d.cursor; })
@@ -169,13 +175,14 @@ var text = svg.selectAll("text")
 var textLabels = text
   .attr("x", function(d) { return d.cx; })
   .attr("y", function(d) { return d.cy + d.textOffset; })
-  .text(function(d){ return d.name; })
+  .text(function(d){ return d.text; })
   .attr("class", function(d){ return d.class })
-  .attr("text-anchor", function(d){ return d.text_anchor })
-  .attr("font-family", function(d){ return d.font_family })
-  .attr("font-weight", function(d){ return d.font_weight })
-  .attr("font-size", function(d){ return d.textSize })
-  .attr("fill", function(d){ return d.textColor} ))
+  .attr("id", function(d){ return d.id + "_text"; })
+  .attr("text-anchor", function(d){ return d.text_anchor; })
+  .attr("font-family", function(d){ return d.font_family; })
+  .attr("font-weight", function(d){ return d.font_weight; })
+  .attr("font-size", function(d){ return d.textSize; })
+  .attr("fill", function(d){ return d.textColor; } )
   .style("cursor", function(d){ return d.cursor; } );
 
 
@@ -227,12 +234,14 @@ function collide(alpha) {
   };
 }
 
-function focusNode(name){
-  var targetNode = getNodeByName(name);
-  var otherNodes = getNonTargetNodesByName(name);
+function focusNode(id){
+  var targetNode = getNodeById(id);
+  targetNode.strokeWidth = 2.5;
+  var otherNodes = getNonTargetNodesByName(id);
   otherNodes.forEach(function(node){
     node.cx = targetNode.x;
     node.cy = targetNode.y;
+    node.strokeWidth = 1;
   });
 
   d3.layout.force()
@@ -242,11 +251,12 @@ function focusNode(name){
   .charge(0)
   .on("tick", tick)
   .start();
+  return targetNode;
 }
 
 function resetRadii(){
   for (var i = 0; i < nodes.length; i++){
-    nodes[i].radius = menuItems[nodes[i].name] * radiusOffset;
+    nodes[i].radius = menuItems[nodes[i].name] * nodes[i].radiusOffset;
   }
   circle.attr("r", function(d) {return d.radius});
 }
@@ -254,7 +264,7 @@ function resetRadii(){
 function resetPosition(){
   for (var i = 0; i < nodes.length; i++){
     nodes[i].cx = Space.width / 2;
-    nodes[i].cy = Space.height / 2 + menuOffset;
+    nodes[i].cy = Space.height / 2 + nodes[i].menuOffset;
   }
   d3.layout.force()
   .nodes(nodes)
@@ -266,19 +276,19 @@ function resetPosition(){
   resetMenuPosition();
 }
 
-function getNodeByName(name){
+function getNodeById(id){
   for (var i = 0; i < nodes.length; i++){
-    if (nodes[i].name === name){
+    if (nodes[i].id === id){
       return nodes[i];
     }
   }
   return {}
 }
 
-function getNonTargetNodesByName(name){
+function getNonTargetNodesByName(id){
   var others = []
   for (var i = 0; i < nodes.length; i++){
-    if (nodes[i].name !== name){
+    if (nodes[i].id !== id){
       others.push(nodes[i]);
     }
   }
@@ -340,8 +350,6 @@ $(function(){
 
   window.onresize = resize;
 
-  var highLightStrokeWidth = 2.5;
-
   var logoElement = document.getElementById("my-logo");
   var nameElement = document.getElementById("name");
   var titleElement = document.getElementById("description");
@@ -374,82 +382,34 @@ $(function(){
     }
   }
 
-  function doMouseLeaveActions(element, nodeName){
-    setMenuPosition(getNodeByName(nodeName));
-    resetIfOverlappingWithUntouchables(element);
+  function doMouseLeaveActions(event){
+    var node = getNodeById(event.target.id);
+    setMenuPosition(node);
+    resetIfOverlappingWithUntouchables(event.target);
     force.stop();
-    $(element).css('stroke-width', 1);
+    $("#" + event.target.id).css('stroke-width', node.strokeWidth);
+  }
+
+  function doMouseEnterActions(event){
+    focusNode(event.target.id);
+    // $('circle.menu').css('stroke-width', node.strokeWidth);
+    // $(event.target).css('stroke-width', node.highLightStrokeWidth);
+  }
+
+  function doMouseEnterTextActions(event){
+    var node_id = event.target.id;
+    node_id = node_id.slice(0, node_id.indexOf("_text"));
+    focusNode(node_id);
   }
 
   function createAndSetListeners(){
-
+    nodes.forEach(function(node){
+      $("#" + node.id).on('mouseleave', doMouseLeaveActions);
+      $("#" + node.id).on('mouseenter', doMouseEnterActions);
+      $("#" + node.id + "_text").on('mouseenter', doMouseEnterTextActions);
+    })
   }
-
-  var listeners = {
-    'mouseleave': doMouseLeaveActions,
-    'mouseenter': doMouseEnterActions
-  }
-
-  $('circle.menu.my-work').on('mouseleave', function(){
-    doMouseLeaveActions(this, "my_work");
-  })
-  $('circle.menu.blog').on('mouseleave', function(){
-    doMouseLeaveActions(this, "blog");
-  })
-  $('circle.menu.cv').on('mouseleave', function(){
-    doMouseLeaveActions(this, "cv");
-  })
-  $('circle.menu.connect').on('mouseleave', function(){
-    doMouseLeaveActions(this, "connect");
-  })
-  $('circle.menu.about').on('mouseleave', function(){
-    doMouseLeaveActions(this, "about");
-  })
-  $('circle.menu.my-work').on('mouseenter', function(){
-    focusNode("my_work")
-    $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', highLightStrokeWidth);
-  })
-  $('circle.menu.blog').on('mouseenter', function(){
-    focusNode("blog")
-    $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', highLightStrokeWidth);
-  })
-  $('circle.menu.cv').on('mouseenter', function(){
-    focusNode("cv")
-    $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', highLightStrokeWidth);
-  })
-  $('circle.menu.connect').on('mouseenter', function(){
-    focusNode("connect")
-    $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', highLightStrokeWidth);
-  })
-  $('circle.menu.about').on('mouseenter', function(){
-    focusNode("about")
-    $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', highLightStrokeWidth);
-  })
-  $('text.about').on('mouseenter', function(){
-    focusNode("about");
-    $('circle.about').css('stroke-width', highLightStrokeWidth);
-  });
-  $('text.blog').on('mouseenter', function(){
-    focusNode("blog")
-    $('circle.blog').css('stroke-width', highLightStrokeWidth);
-  });
-  $('text.cv').on('mouseenter', function(){
-    focusNode("cv")
-    $('circle.cv').css('stroke-width', highLightStrokeWidth);
-  });
-  $('text.connect').on('mouseenter', function(){
-    focusNode("connect")
-    $('circle.connect').css('stroke-width', highLightStrokeWidth);
-  });
-  $('text.my-work').on('mouseenter', function(){
-    focusNode("my_work")
-    $('circle.my-work').css('stroke-width', highLightStrokeWidth);
-  });
+  createAndSetListeners();
 
   // enter about description and set up listener
   $('.about').on('click', function(){
