@@ -20,7 +20,8 @@ var menuItems = {
   "Blog": 32,
   "About": 37,
   "Connect": 49,
-  "My Work": 50
+  "My Work": 50,
+  "Drag Me": 50
 }
 
 var n = Object.keys(menuItems).length, // total number of nodes
@@ -30,8 +31,8 @@ function nodeBuilder(label, radius, options){
   return {
     radius: radius * radiusOffset,
     color: menuColor,
-    cx: width/2 + options["x"],
-    cy: height/2 + menuOffset + options["y"],
+    cx: options["override"] ? options["x"] : (width/2 + options["x"]),
+    cy: options["override"] ? options["y"] : (height/2 + menuOffset + options["y"]),
     name: label,
     class: "modal-trigger menu " + label.toLocaleLowerCase().replace(/\s/g, "-"),
     textSize: textSize,
@@ -46,25 +47,43 @@ function generateNodeArray(alignment){
   var nodeArray = [];
   var count = 0
   var angle = 0
-  for (key in menuItems) {
+  for (nameKey in menuItems) {
+    var radius = menuItems[nameKey];
     if (alignment === "horizontal"){
-      nodeArray.push(nodeBuilder(key, menuItems[key], {x: -200 + (count+=60), y: 0}))
+      nodeArray.push(nodeBuilder(nameKey, radius, {x: -200 + (count+=60), y: 0}))
     } else if (alignment === "vertical"){
-      nodeArray.push(nodeBuilder(key, menuItems[key], {x: 0, y: -180 + (count+=60)}))
+      nodeArray.push(nodeBuilder(nameKey, radius, {x: 0, y: -180 + (count+=60)}))
     } else if (alignment === "spiral"){
       angle = 0.2 * (count+=3.5);
       var xOffset = -60 - (35 * angle * Math.cos(angle));
       var yOffset = (35 * angle * Math.sin(angle));
-      nodeArray.push(nodeBuilder(key, menuItems[key], {x: xOffset, y: yOffset}));
+      nodeArray.push(nodeBuilder(nameKey, radius, {x: xOffset, y: yOffset}));
     } else {
-      nodeArray.push(nodeBuilder(key, menuItems[key], {x: 0, y: 0}))
+      nodeArray.push(nodeBuilder(nameKey, radius, {x: 0, y: 0}))
     }
   }
   return nodeArray;
 }
 
+function fetchNodeArray(){
+  if (position = getMenuPosition()){
+    var positionArray = position.split(",");
+    var x = positionArray[0];
+    var y = positionArray[1];
+    var nodeArray = [];
+    for (nameKey in menuItems) {
+      var radius = menuItems[nameKey];
+      var node = nodeBuilder(nameKey, radius, {x: x, y: y, override: true})
+      nodeArray.push(node);
+    }
+    return nodeArray;
+  } else {
+    return null;
+  }
+}
 
-var nodes = generateNodeArray();
+
+var nodes = fetchNodeArray() || generateNodeArray();
 
 var force = d3.layout.force()
   .nodes(nodes)
@@ -184,7 +203,7 @@ function resetRadii(){
   }
   circle.attr("r", function(d) {return d.radius});
 }
-// to do : only reposition if in logo/title area
+
 function resetPosition(){
   for (var i = 0; i < nodes.length; i++){
     nodes[i].cx = width / 2;
@@ -197,6 +216,7 @@ function resetPosition(){
   .charge(0)
   .on("tick", tick)
   .start();
+  resetMenuPosition();
 }
 
 function getNodeByName(name){
@@ -237,6 +257,38 @@ function resize(e){
   force.size([width, height]).resume();
 }
 
+////////////// Menu Persistence //////////////
+
+
+function setMenuPosition(centralNode){
+  var x = parseInt(centralNode.x);
+  var y = parseInt(centralNode.y);
+  var positionString = x.toString() + "," + y.toString();
+  console.log("SETTING POSITOIN");
+  localStorage.setItem("menuPosition", positionString);
+}
+
+function resetMenuPosition(){
+  console.log("RESETTING POSITOIN");
+  localStorage.removeItem("menuPosition");
+}
+
+function getMenuPosition(){
+  console.log("GETTING POSITOIN");
+  return localStorage.getItem("menuPosition");
+}
+
+////////////// Util Functions //////////////
+
+function areOverlapping(a, b){
+  a = a.getBoundingClientRect();
+  b = b.getBoundingClientRect();
+
+  return !( a.right < b.left ||
+            a.left > b.right ||
+            a.bottom < b.top ||
+            a.top > b.bottom )
+}
 
 ////////////// Set Up Listeners //////////////
 
@@ -244,7 +296,19 @@ $(function(){
 
   window.onresize = resize;
 
-  var connections = '<div class="connectors"> <a target="_blank" href="mailto:cdepman@gmail.com"> <i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i> </a> <a target="_blank" href="http://linkedin.com/in/cdepman"> <i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i> </a> <a target="_blank" href="http://facebook.com/cdepman"> <i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i> </a> <a target="_blank" href="http://github.com/cdepman"> <i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i> </a> </div>';
+  var highLightStrokeWidth = 2.5;
+
+  var logoElement = document.getElementById("my-logo");
+  var nameElement = document.getElementById("name");
+  var titleElement = document.getElementById("description");
+  var untouchables = [logoElement, nameElement, titleElement];
+
+  var github = '<a target="_blank" href="http://github.com/cdepman"> <i id="github" class="hvr-shrink connect-icon fa fa-github-square fa-5x"></i> </a>';
+  var email = '<a target="_blank" href="mailto:cdepman@gmail.com"> <i id="email" class="hvr-shrink connect-icon fa fa-envelope-square fa-5x"></i> </a>';
+  var linkedIn = '<a target="_blank" href="http://linkedin.com/in/cdepman"> <i id="linked-in" class="hvr-shrink connect-icon fa fa-linkedin-square fa-5x"></i> </a>';
+  var facebook = '<a target="_blank" href="http://facebook.com/cdepman"> <i id="facebook" class="hvr-shrink connect-icon fa fa-facebook-square fa-5x"></i> </a>';
+
+  var connections = '<div class="connectors">' + github + email + linkedIn + facebook + '</div>';
   $('body').append(connections);
   $('.connectors').toggle();
 
@@ -256,80 +320,82 @@ $(function(){
     $('.close-connectors').fadeIn("fast");
   };
 
-  $('.connect').on('click', function(){
-    connect();
-  });
+  $('.connect').on('click', connect);
 
+  function resetIfOverlappingWithUntouchables(element){
+    for (var i = 0; i < untouchables.length; i++){
+      if (areOverlapping(element, untouchables[i])){
+        return resetPosition();
+      }
+    }
+  }
+
+  function doMouseLeaveActions(element, nodeName){
+    setMenuPosition(getNodeByName(nodeName));
+    resetIfOverlappingWithUntouchables(element);
+    force.stop();
+    $(element).css('stroke-width', 1);
+  }
 
   $('circle.menu.my-work').on('mouseleave', function(){
-    resetPosition()
-    force.stop()
-    $(this).css('stroke-width', 1);
+    doMouseLeaveActions(this, "My Work");
   })
   $('circle.menu.blog').on('mouseleave', function(){
-    resetPosition()
-    force.stop()
-    $(this).css('stroke-width', 1);
+    doMouseLeaveActions(this, "Blog");
   })
   $('circle.menu.cv').on('mouseleave', function(){
-    resetPosition()
-    force.stop()
-    $(this).css('stroke-width', 1);
+    doMouseLeaveActions(this, "CV");
   })
   $('circle.menu.connect').on('mouseleave', function(){
-    resetPosition()
-    force.stop()
-    $(this).css('stroke-width', 1);
+    doMouseLeaveActions(this, "Connect");
   })
   $('circle.menu.about').on('mouseleave', function(){
-    resetPosition()
-    force.stop()
-    $(this).css('stroke-width', 1);
+    doMouseLeaveActions(this, "About");
   })
   $('circle.menu.my-work').on('mouseenter', function(){
     focusNode("My Work")
     $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', 2.5);
+    $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.blog').on('mouseenter', function(){
     focusNode("Blog")
     $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', 2.5);
+    $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.cv').on('mouseenter', function(){
     focusNode("CV")
     $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', 2.5);
+    $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.connect').on('mouseenter', function(){
     focusNode("Connect")
     $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', 2.5);
+    $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('circle.menu.about').on('mouseenter', function(){
     focusNode("About")
     $('circle.menu').css('stroke-width', 1);
-    $(this).css('stroke-width', 2.5);
+    $(this).css('stroke-width', highLightStrokeWidth);
   })
   $('text.about').on('mouseenter', function(){
     focusNode("About");
-    $('circle.about').css('stroke-width', 2.5);
+    $('circle.about').css('stroke-width', highLightStrokeWidth);
   });
   $('text.blog').on('mouseenter', function(){
     focusNode("Blog")
-    $('circle.blog').css('stroke-width', 2.5);
+    $('circle.blog').css('stroke-width', highLightStrokeWidth);
   });
   $('text.cv').on('mouseenter', function(){
     focusNode("CV")
-    $('circle.cv').css('stroke-width', 2.5);
+    $('circle.cv').css('stroke-width', highLightStrokeWidth);
   });
   $('text.connect').on('mouseenter', function(){
     focusNode("Connect")
-    $('circle.connect').css('stroke-width', 2.5);
+    $('circle.connect').css('stroke-width', highLightStrokeWidth);
   });
   $('text.my-work').on('mouseenter', function(){
     focusNode("My Work")
-    $('circle.my-work').css('stroke-width', 2.5);
+    $('circle.my-work').css('stroke-width', highLightStrokeWidth);
   });
 
   // enter about description and set up listener
