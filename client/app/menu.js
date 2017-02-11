@@ -5,7 +5,7 @@ var Space = {
   height : window.innerHeight
 }
 
-var DEFAULTS = {
+var BASE_NODE_PARAMS = {
   name: Date.now().toString(),
   color: "transparent",
   cx: Space.width/2,
@@ -34,34 +34,33 @@ var DEFAULTS = {
 
 function createNode(params){
   return {
-    name: textToName(params["text"]) || DEFAULTS["name"],
-    id: textToName(params["text"]) || DEFAULTS["id"],
-    color: params["color"] || DEFAULTS["color"],
-    cx: params["cx"] || DEFAULTS["cx"],
-    cy: params["cy"] || DEFAULTS["cy"],
-    class: params["class"] || DEFAULTS["class"],
-    menuOffset: params["menuOffset"] || DEFAULTS["menuOffset"],
-    padding: params["padding"] || DEFAULTS["padding"],
-    radiusOffset: params["radiusOffset"] || DEFAULTS["radiusOffset"],
-    text: params["text"] || DEFAULTS["text"],
-    textSize: params["textSize"] || DEFAULTS["textSize"],
-    textColor: params["textColor"] || DEFAULTS["textColor"],
-    textOffset: params["textOffset"] || DEFAULTS["textOffset"],
-    maxRadius: params["maxRadius"] || DEFAULTS["maxRadius"],
-    cursor: params["cursor"] || DEFAULTS["cursor"],
-    strokeWidth: params["strokeWidth"] || DEFAULTS["strokeWidth"],
-    highLightStrokeWidth: params["highLightStrokeWidth"] || DEFAULTS["highLightStrokeWidth"],
-    stroke: params["stroke"] || DEFAULTS["stroke"],
-    strokeDash: params["strokeDash"] || DEFAULTS["strokeDash"],
-    radius: params["radius"] || DEFAULTS["radius"],
-    text_anchor: params["text_anchor"] || DEFAULTS["text_anchor"],
-    font_family: params["font_family"] || DEFAULTS["font_family"],
-    font_weight: params["font_weight"] || DEFAULTS["font_weight"],
-    normalStrokeWidth: params["normalStrokeWidth"] || DEFAULTS["normalStrokeWidth"]
+    name: textToId(params["text"]) || BASE_NODE_PARAMS["name"],
+    id: textToId(params["text"]) || BASE_NODE_PARAMS["id"],
+    color: params["color"] || BASE_NODE_PARAMS["color"],
+    cx: params["cx"] || BASE_NODE_PARAMS["cx"],
+    cy: params["cy"] || BASE_NODE_PARAMS["cy"],
+    class: params["class"] || BASE_NODE_PARAMS["class"],
+    menuOffset: params["menuOffset"] || BASE_NODE_PARAMS["menuOffset"],
+    padding: params["padding"] || BASE_NODE_PARAMS["padding"],
+    radiusOffset: params["radiusOffset"] || BASE_NODE_PARAMS["radiusOffset"],
+    text: params["text"] || BASE_NODE_PARAMS["text"],
+    textSize: params["textSize"] || BASE_NODE_PARAMS["textSize"],
+    textColor: params["textColor"] || BASE_NODE_PARAMS["textColor"],
+    textOffset: params["textOffset"] || BASE_NODE_PARAMS["textOffset"],
+    maxRadius: params["maxRadius"] || BASE_NODE_PARAMS["maxRadius"],
+    cursor: params["cursor"] || BASE_NODE_PARAMS["cursor"],
+    strokeWidth: params["strokeWidth"] || BASE_NODE_PARAMS["strokeWidth"],
+    highLightStrokeWidth: params["highLightStrokeWidth"] || BASE_NODE_PARAMS["highLightStrokeWidth"],
+    stroke: params["stroke"] || BASE_NODE_PARAMS["stroke"],
+    strokeDash: params["strokeDash"] || BASE_NODE_PARAMS["strokeDash"],
+    radius: params["radius"] || BASE_NODE_PARAMS["radius"],
+    text_anchor: params["text_anchor"] || BASE_NODE_PARAMS["text_anchor"],
+    font_family: params["font_family"] || BASE_NODE_PARAMS["font_family"],
+    font_weight: params["font_weight"] || BASE_NODE_PARAMS["font_weight"],
   };
 }
 
-function textToName(name){
+function textToId(name){
   if (!name) { return null }
   return name.toLocaleLowerCase().split(" ").join("_")
 }
@@ -91,11 +90,12 @@ function createMenuItems(){
     createNode({
       "radius": 35,
       "textSize": "0.9em",
-      "color": "red",
+      "color": "#ff00a0",
       "textColor": "pink",
       "text": "Drag Me",
-      "strokeWidth": "0",
-      "highLightStrokeWidth": "0",
+      "strokeWidth": '0',
+      "highLightStrokeWidth": '0',
+      "padding": 0.1
     })
   ];
 }
@@ -241,14 +241,12 @@ function highligtNode(node){
 }
 
 function unhighlightNode(node){
-  document.getElementById(node.id).style.strokeWidth = node.normalStrokeWidth;
+  document.getElementById(node.id).style.strokeWidth = node.strokeWidth;
 }
 
 function focusNode(id){
-  console.log(id);
   var targetNode = getNodeById(id);
   highligtNode(targetNode);
-  targetNode.strokeWidth = 2.5;
   var otherNodes = getNonTargetNodesByName(id);
   otherNodes.forEach(function(node){
     node.cx = targetNode.x;
@@ -279,6 +277,13 @@ function defocusNode(id){
   return targetNode;
 }
 
+function repositionCluster(event){
+  nodes.forEach(function(node){
+    node.cx = event.clientX;
+    node.cy = event.clientY;
+  });
+}
+
 function resetRadii(){
   for (var i = 0; i < nodes.length; i++){
     nodes[i].radius = menuItems[nodes[i].name] * nodes[i].radiusOffset;
@@ -299,25 +304,6 @@ function resetPosition(){
   .on("tick", tick)
   .start();
   resetMenuPosition();
-}
-
-function getNodeById(id){
-  for (var i = 0; i < nodes.length; i++){
-    if (nodes[i].id === id){
-      return nodes[i];
-    }
-  }
-  return {}
-}
-
-function getNonTargetNodesByName(id){
-  var others = []
-  for (var i = 0; i < nodes.length; i++){
-    if (nodes[i].id !== id){
-      others.push(nodes[i]);
-    }
-  }
-  return others
 }
 
 function resize(e){
@@ -359,6 +345,25 @@ function getMenuPosition(){
 
 ////////////// Util Functions //////////////
 
+function getNodeById(id){
+  for (var i = 0; i < nodes.length; i++){
+    if (nodes[i].id === id){
+      return nodes[i];
+    }
+  }
+  return {}
+}
+
+function getNonTargetNodesByName(id){
+  var others = []
+  for (var i = 0; i < nodes.length; i++){
+    if (nodes[i].id !== id){
+      others.push(nodes[i]);
+    }
+  }
+  return others
+}
+
 function areOverlapping(a, b){
   a = a.getBoundingClientRect();
   b = b.getBoundingClientRect();
@@ -397,7 +402,7 @@ $(function(){
     $('.close-connectors').fadeIn("fast");
   };
 
-  $('.connect').on('click', connect);
+  $('#connect, #connect_text').on('click', connect);
 
   function resetIfOverlappingWithUntouchables(element){
     for (var i = 0; i < untouchables.length; i++){
@@ -416,8 +421,6 @@ $(function(){
 
   function doMouseEnterActions(event){
     focusNode(event.target.id);
-    // $('circle.menu').css('stroke-width', node.strokeWidth);
-    // $(event.target).css('stroke-width', node.highLightStrokeWidth);
   }
 
   function doMouseEnterTextActions(event){
@@ -426,17 +429,25 @@ $(function(){
     focusNode(node_id);
   }
 
+  function doMouseDragActions(event){
+    var node_id = event.target.id;
+    node_id = node_id.slice(0, node_id.indexOf("_text"));
+    repositionCluster(event);
+  }
+
   function createAndSetListeners(){
     nodes.forEach(function(node){
       $("#" + node.id).on('mouseleave', doMouseLeaveActions);
       $("#" + node.id).on('mouseenter', doMouseEnterActions);
       $("#" + node.id + "_text").on('mouseenter', doMouseEnterTextActions);
+      $("#drag_me").on('click', doMouseDragActions);
+      $("#drag_me_text").on('click', doMouseDragActions);
     })
   }
   createAndSetListeners();
 
   // enter about description and set up listener
-  $('.about').on('click', function(){
+  $('#about, #about_text').on('click', function(){
     $('#head-shot').fadeIn("fast");
     $('#lean_overlay').fadeIn();
     $('#modal1').fadeIn();
@@ -468,15 +479,15 @@ $(function(){
     }, 500);
   })
 
-  $('.cv').on('click', function(){
+  $('#cv, #cv_text').on('click', function(){
     window.open('/assets/CharlieDepmanResume.pdf', '_blank');
   });
 
-  $('.my-work').on('click', function(){
+  $('#my_work, #my_work_text').on('click', function(){
     window.location.href = 'myWork.html';
   });
 
-  $('.blog').on('click', function(){
+  $('#blog, #blog_text').on('click', function(){
     window.open('http://blog.charlied.xyz', '_blank');
   });
 
